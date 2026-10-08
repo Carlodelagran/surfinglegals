@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 <title>Surfing Legals | Carlos Alvarado Butanda</title>
 </head>
+
 <body class="home">
 
     <main class="portada">
@@ -34,5 +35,68 @@
         </div>
 
     </main>
+    <script>
+const logo = document.querySelector(".portada-logo");
+
+let audioContext;
+
+function sonidoGlitch() {
+    audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    const inicio = audioContext.currentTime;
+    const duracion = 0.8;
+
+    // Ruido de una bocina con interferencia
+    const buffer = audioContext.createBuffer(
+        1,
+        Math.floor(audioContext.sampleRate * duracion),
+        audioContext.sampleRate
+    );
+
+    const datos = buffer.getChannelData(0);
+
+    for (let i = 0; i < datos.length; i++) {
+        const tiempo = i / audioContext.sampleRate;
+
+        const vibracion =
+            Math.sin(2 * Math.PI * 115 * tiempo) * 0.5 +
+            Math.sin(2 * Math.PI * 231 * tiempo) * 0.25;
+
+        const estatica = (Math.random() * 2 - 1) * 0.3;
+
+        const cortes = Math.sin(2 * Math.PI * 18 * tiempo) > -0.2 ? 1 : 0.08;
+
+        datos[i] = Math.tanh((vibracion + estatica) * 3) * cortes;
+    }
+
+    const fuente = audioContext.createBufferSource();
+    fuente.buffer = buffer;
+
+    const filtro = audioContext.createBiquadFilter();
+    filtro.type = "lowpass";
+    filtro.frequency.value = 1400;
+
+    const volumen = audioContext.createGain();
+
+    volumen.gain.setValueAtTime(0.0001, inicio);
+    volumen.gain.linearRampToValueAtTime(0.09, inicio + 0.04);
+    volumen.gain.setValueAtTime(0.09, inicio + 0.55);
+    volumen.gain.linearRampToValueAtTime(0.0001, inicio + duracion);
+
+    fuente.connect(filtro);
+    filtro.connect(volumen);
+    volumen.connect(audioContext.destination);
+
+    fuente.start(inicio);
+    fuente.stop(inicio + duracion);
+}
+
+logo.addEventListener("pointerenter", sonidoGlitch);
+logo.addEventListener("click", sonidoGlitch);
+</script>
 </body>
 </html>
