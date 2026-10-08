@@ -1,9 +1,9 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f7f6f2;
-color: #1a1a1a;
-line-height: 1.6;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f3f0e8;
+    color: #161616;
+    line-height: 1.65;
 }
 main {
     max-width: 900px;
@@ -25,6 +25,8 @@ article {
 }
 header {
     margin-bottom: 80px;
+    padding: 55px 0 45px;
+    border-bottom: 1px solid #c9c4b8;
 }
 
 header h1 {
@@ -159,4 +161,433 @@ footer {
     margin-top: 25px;
     padding-top: 25px;
     border-top: 1px solid #d8d6cf;
+}
+/* PORTADA */
+
+body.home {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(0, 132, 192, 0.10) 0%,
+            rgba(28, 25, 55, 0) 42%
+        ),
+        #1c1937;
+    color: #ffffff;
+}
+
+.home .portada {
+    min-height: 100vh;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.home .portada-logo {
+    width: 180px;
+    height: auto;
+    display: block;
+    margin: 0 auto 35px;
+
+    animation: flotar-logo 7s ease-in-out infinite;
+}
+
+@keyframes flotar-logo {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+}
+.home .portada-accesos {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    margin-top: 45px;
+}
+
+.home .portada-accesos a {
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.home .portada-accesos a:hover {
+    color: #00e9c7;
+    opacity: 1;
+}
+body.home {
+    background-size: 140% 140%;
+    animation: fondo-portada 18s ease-in-out infinite alternate;
+}
+
+@keyframes fondo-portada {
+    0% {
+        background-position: 45% 45%;
+    }
+
+    100% {
+        background-position: 55% 55%;
+    }
+}
+/* BIBLIOTECA DE PUBLICACIONES */
+
+.biblioteca-header {
+    max-width: 700px;
+    margin-bottom: 60px;
+}
+
+.biblioteca-header h1 {
+    font-size: 3rem;
+    margin: 10px 0 15px;
+}
+
+.tarjeta-publicacion {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 45px;
+    align-items: center;
+
+    padding: 40px 0;
+    margin: 0;
+
+    border-top: 1px solid #c9c4b8;
+}
+
+.miniatura-publicacion {
+    aspect-ratio: 4 / 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #1c1937;
+    color: #ffffff;
+
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.contenido-publicacion h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2rem;
+    line-height: 1.2;
+
+    margin: 8px 0 18px;
+}
+
+.resumen-publicacion {
+    max-width: 550px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.leer-publicacion {
+    display: inline-block;
+    margin-top: 12px;
+
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+    .tarjeta-publicacion {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .miniatura-publicacion {
+        max-width: 100%;
+    }
+}
+/* IDENTIDAD VISUAL — PUBLICACIONES */
+
+body.pagina-publicaciones {
+    background: #1c1937;
+    color: #ffffff;
+}
+
+.pagina-publicaciones .navbar {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.pagina-publicaciones .logo,
+.pagina-publicaciones .nav-links a {
+    color: #ffffff;
+}
+
+.pagina-publicaciones .biblioteca-header {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.pagina-publicaciones .biblioteca-header .categoria,
+.pagina-publicaciones .contenido-publicacion .categoria {
+    color: #00e9c7;
+}
+
+.pagina-publicaciones .biblioteca-header h1,
+.pagina-publicaciones .contenido-publicacion h2 {
+    color: #ffffff;
+}
+
+.pagina-publicaciones .intro,
+.pagina-publicaciones .resumen-publicacion {
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.pagina-publicaciones .fecha {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+.pagina-publicaciones .tarjeta-publicacion {
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+.pagina-publicaciones .leer-publicacion {
+    color: #00e9c7;
+}
+
+.pagina-publicaciones footer {
+    color: rgba(255, 255, 255, 0.45);
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+/* NAVEGACIÓN — PUBLICACIONES */
+
+.pagina-publicaciones .navbar-publicaciones {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pagina-publicaciones .logo-grafico img {
+    display: block;
+    width: 30px;
+    height: auto;
+    opacity: 0.85;
+}
+
+.pagina-publicaciones .nav-links {
+    gap: 28px;
+}
+
+.pagina-publicaciones .nav-links a {
+    color: rgba(231, 46, 252, 0.68);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 1.7px;
+    text-decoration: none;
+    transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.pagina-publicaciones .nav-links a:hover {
+    color: #e72efc;
+}
+/* MINIATURA EDITORIAL — SURFING LEGALS */
+
+.pagina-publicaciones .miniatura-publicacion {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding: 24px;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(231, 46, 252, 0.75),
+            transparent 34%
+        ),
+        linear-gradient(
+            135deg,
+            #0084c0 0%,
+            #1c1937 58%,
+            #1c1937 100%
+        );
+
+    color: #ffffff;
+}
+
+/* Línea turquesa */
+
+.pagina-publicaciones .miniatura-publicacion::after {
+    content: "";
+    position: absolute;
+
+    width: 75%;
+    height: 3px;
+
+    left: 24px;
+    bottom: 55px;
+
+    background: #00e9c7;
+}
+
+/* Categoría */
+
+.pagina-publicaciones .miniatura-categoria {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 1.8px;
+
+    color: #00e9c7;
+}
+
+/* Título */
+
+.pagina-publicaciones .miniatura-titulo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.45rem;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+
+    max-width: 190px;
+}
+
+/* Marca */
+
+.pagina-publicaciones .miniatura-marca {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.52rem;
+    letter-spacing: 2px;
+
+    color: rgba(255, 255, 255, 0.65);
+}
+.pagina-publicaciones main {
+    margin-top: 15px;
+}
+.pagina-publicaciones .tarjeta-publicacion {
+    border-top: none;
+}
+.pagina-publicaciones .miniatura-publicacion {
+    padding: 0;
+}
+
+.pagina-publicaciones .miniatura-publicacion img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+.pagina-publicaciones .contenido-publicacion .categoria {
+    font-size: 0.72rem;
+    letter-spacing: 1.6px;
+    opacity: 0.75;
+}
+/* IDENTIDAD VISUAL — QUIÉNES SOMOS */
+
+body.pagina-quienes {
+    background: #1c1937;
+    color: #ffffff;
+}
+
+.pagina-quienes .navbar {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.pagina-quienes .logo {
+    color: #ffffff;
+}
+
+.pagina-quienes .nav-links a {
+    color: rgba(231, 46, 252, 0.68);
+}
+
+.pagina-quienes .nav-links a:hover {
+    color: #e72efc;
+}
+
+.pagina-quienes .autor-header {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.pagina-quienes .autor-header h1 {
+    color: #ffffff;
+}
+
+.pagina-quienes .autor-header p {
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.pagina-quienes .autor-header a {
+    color: #00e9c7;
+}
+
+.pagina-quienes footer {
+    color: rgba(255, 255, 255, 0.45);
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+/* ÁREAS DE PRÁCTICA — SURFING LEGALS */
+
+.pagina-quienes .areas-practica {
+    margin-top: 50px;
+}
+
+.pagina-quienes .areas-practica h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 40px;
+}
+
+.pagina-quienes .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 65px;
+}
+
+.pagina-quienes .area {
+    border-left: 2px solid rgba(231, 46, 252, 0.65);
+    padding-left: 20px;
+}
+
+.pagina-quienes .area h3 {
+    color: #00e9c7;
+    font-size: 1.1rem;
+    margin: 0 0 10px;
+}
+
+.pagina-quienes .area p {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+@media (max-width: 650px) {
+    .pagina-quienes .areas-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+.pagina-quienes .logo-grafico img {
+    display: block;
+    width: 30px;
+    height: auto;
+    opacity: 0.85;
+}
+/* ESPACIADO — QUIÉNES SOMOS */
+
+.pagina-quienes main {
+    margin-top: 35px;
+}
+
+.pagina-quienes .autor-header {
+    padding-top: 15px;
 }
