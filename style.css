@@ -651,3 +651,504 @@ body.pagina-quienes {
         0 0 30px #0084C0;
     transition: none;
 }
+/* =====================================
+   SERVICIO DE FIRMA ELECTRÓNICA
+===================================== */
+
+.pagina-servicio {
+    margin: 0;
+    min-height: 100vh;
+    background: #1C1937;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Encabezado */
+
+.encabezado-servicio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 24px 7%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.marca-servicio {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.marca-servicio img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.navegacion-servicio {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.navegacion-servicio a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    transition: color 0.3s ease;
+}
+
+.navegacion-servicio a:hover {
+    color: #00E9C7;
+}
+
+/* Portada comercial */
+
+.hero-firma {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    padding: 80px 9%;
+    box-sizing: border-box;
+    background:
+        radial-gradient(
+            circle at 85% 25%,
+            rgba(231, 46, 252, 0.15),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0, 132, 192, 0.20),
+            transparent 40%
+        ),
+        #1C1937;
+}
+
+.hero-firma-contenido {
+    max-width: 900px;
+}
+
+.hero-firma-etiqueta {
+    color: #00E9C7;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+}
+
+.hero-firma h1 {
+    font-size: clamp(38px, 5.5vw, 76px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin: 0 0 30px;
+    font-weight: 700;
+}
+
+.hero-firma h1 span {
+    display: block;
+    color: #00E9C7;
+    margin-top: 12px;
+}
+
+.hero-firma-descripcion {
+    max-width: 680px;
+    color: #d8d5e7;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 36px;
+}
+
+.hero-firma-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    padding: 18px 28px;
+    background: #00E9C7;
+    color: #1C1937;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-firma-boton:hover {
+    background: #ffffff;
+    transform: translateY(-3px);
+}
+
+.hero-firma-respaldo {
+    margin-top: 44px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #a8a3c2;
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 768px) {
+
+    .encabezado-servicio {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 6%;
+    }
+
+    .navegacion-servicio {
+        gap: 16px;
+    }
+
+    .navegacion-servicio a {
+        font-size: 10px;
+    }
+
+    .hero-firma {
+        min-height: 70vh;
+        padding: 75px 7%;
+    }
+
+    .hero-firma h1 {
+        letter-spacing: -1px;
+    }
+
+    .hero-firma-descripcion {
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .hero-firma-etiqueta {
+        letter-spacing: 2px;
+    }
+}
+/* =====================================
+   VENTAJAS DE LA FIRMA ELECTRÓNICA
+===================================== */
+
+.ventajas-firma {
+    padding: 110px 9%;
+    background: #17152e;
+}
+
+.ventajas-firma-intro {
+    max-width: 900px;
+    margin-bottom: 65px;
+}
+
+.ventajas-firma-intro h2 {
+    font-size: clamp(34px, 4.5vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    margin: 20px 0 30px;
+    color: #ffffff;
+}
+
+.ventajas-firma-intro h2 span {
+    display: block;
+    color: #00E9C7;
+}
+
+.ventajas-firma-intro > p:last-child {
+    max-width: 740px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c8c5da;
+}
+
+.ventajas-firma-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.ventaja-firma {
+    padding: 42px;
+    background: #211e3d;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    transition: border-color 0.3s ease,
+                transform 0.3s ease;
+}
+
+.ventaja-firma:hover {
+    border-color: #00E9C7;
+    transform: translateY(-4px);
+}
+
+.ventaja-numero {
+    display: block;
+    color: #00E9C7;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+}
+
+.ventaja-firma h3 {
+    color: #ffffff;
+    font-size: 27px;
+    margin: 0 0 18px;
+}
+
+.ventaja-firma p {
+    color: #c8c5da;
+    font-size: 16px;
+    line-height: 1.75;
+    margin: 0;
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 768px) {
+
+    .ventajas-firma {
+        padding: 75px 7%;
+    }
+
+    .ventajas-firma-intro {
+        margin-bottom: 40px;
+    }
+
+    .ventajas-firma-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ventaja-firma {
+        padding: 30px;
+    }
+
+    .ventaja-firma h3 {
+        font-size: 24px;
+    }
+}
+/* Menú de navegación de firma electrónica */
+
+.pagina-servicio .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 7%;
+    background: #1C1937;
+}
+
+.pagina-servicio .logo-grafico img {
+    display: block;
+    width: 48px;
+    height: 58px;
+    object-fit: contain;
+}
+
+.pagina-servicio .nav-links a {
+    color: #E72EFC;
+}
+
+.pagina-servicio .nav-links a:hover {
+    color: #00E9C7;
+}
+/* =====================================
+   DOCUMENTOS PARA FIRMA ELECTRÓNICA
+===================================== */
+
+.documentos-firma {
+    padding: 110px 9%;
+    background: #1C1937;
+}
+
+.documentos-firma-intro {
+    max-width: 900px;
+    margin-bottom: 65px;
+}
+
+.documentos-firma-intro h2 {
+    font-size: clamp(34px, 4.5vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    margin: 20px 0 30px;
+}
+
+.documentos-firma-intro h2 span {
+    color: #00E9C7;
+}
+
+.documentos-firma-intro > p:last-child {
+    max-width: 740px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c8c5da;
+}
+
+.documentos-firma-lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 65px;
+}
+
+.documentos-firma-lista div {
+    padding: 25px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.documentos-firma-lista div::before {
+    content: "↗";
+    color: #00E9C7;
+    margin-right: 18px;
+}
+
+.documentos-firma-lista div:hover {
+    color: #00E9C7;
+}
+
+.documentos-firma-nota {
+    max-width: 850px;
+    margin-top: 55px;
+    padding-left: 20px;
+    border-left: 3px solid #E72EFC;
+    color: #a8a3c2;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* Adaptación para celulares */
+
+@media (max-width: 768px) {
+
+    .documentos-firma {
+        padding: 75px 7%;
+    }
+
+    .documentos-firma-intro {
+        margin-bottom: 40px;
+    }
+
+    .documentos-firma-lista {
+        grid-template-columns: 1fr;
+    }
+
+    .documentos-firma-lista div {
+        font-size: 16px;
+        padding: 20px 5px;
+    }
+
+    .documentos-firma-nota {
+        margin-top: 40px;
+    }
+}
+/* MODALIDADES DE FIRMA ELECTRÓNICA */
+
+.modalidades-firma {
+    padding: 110px 9%;
+    background: #141229;
+}
+
+.modalidades-firma-intro {
+    max-width: 950px;
+    margin-bottom: 60px;
+}
+
+.modalidades-firma-intro h2 {
+    font-size: clamp(34px, 4.5vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    margin: 20px 0 30px;
+}
+
+.modalidades-firma-intro h2 span {
+    display: block;
+    color: #00E9C7;
+}
+
+.modalidades-firma-intro > p:last-child {
+    max-width: 740px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c8c5da;
+}
+
+.modalidades-firma-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.modalidad-firma {
+    display: flex;
+    flex-direction: column;
+    padding: 45px 38px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: #1C1937;
+    border-radius: 12px;
+}
+
+.modalidad-firma-plus {
+    border-color: #E72EFC;
+}
+
+.modalidad-firma-tipo {
+    color: #00E9C7;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+}
+
+.modalidad-firma-plus .modalidad-firma-tipo {
+    color: #E72EFC;
+}
+
+.modalidad-firma h3 {
+    color: #ffffff;
+    font-size: clamp(25px, 2.5vw, 34px);
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.modalidad-firma > p:not(.modalidad-firma-tipo) {
+    color: #c8c5da;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.modalidad-firma-destacado {
+    margin-top: auto;
+    padding-top: 35px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+
+    .modalidades-firma {
+        padding: 75px 7%;
+    }
+
+    .modalidades-firma-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modalidad-firma {
+        padding: 35px 28px;
+    }
+
+}
+/* REFERENCIA INSTITUCIONAL AL PSC */
+
+.pagina-servicio .referencia-psc {
+    max-width: 850px;
+    margin: 55px auto 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    color: #a8a3c2;
+    font-size: 13px;
+    line-height: 1.8;
+    text-align: center;
+}
