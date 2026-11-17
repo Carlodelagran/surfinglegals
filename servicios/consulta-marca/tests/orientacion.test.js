@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const {prepare}=require('../orientacion-inicial.js');
+const a=prepare({marca:'RETRO GAME FEST',descripcion:'Organización de festivales de videojuegos',etapa:'Por lanzar'});
+assert.equal(a.estado,'pendiente_consulta_impi');
+assert.equal(a.tipo,'orientacion_sin_busqueda');
+assert.ok(a.tareas.some(x=>x.includes('IMPI')));
+assert.equal(a.elementosGenericos.length,0);
+const b=prepare({marca:'FESTIVAL RETRO',descripcion:'Actividades recreativas',etapa:'Conflicto o requerimiento'});
+assert.deepEqual(b.elementosGenericos,['FESTIVAL']);
+assert.ok(b.tareas[0].includes('plazo'));
+assert.throws(()=>prepare({marca:'',descripcion:'servicios'}));
+console.log('Orientación inicial: pruebas correctas');
