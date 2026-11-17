@@ -74,6 +74,15 @@
             <ol id="ruta-pasos" style="padding-left:23px;line-height:1.7"></ol>
             <p class="marca-note">Cuando se incorporen antecedentes oficiales, el análisis podrá señalar expedientes prioritarios para revisión. <a href="laboratorio/">Ir al laboratorio interno de antecedentes</a>.</p>
           </div>
+          <details id="antecedentes-importacion" style="margin:20px 0;padding:16px;border:1px solid #ffffff32;border-radius:12px">
+            <summary style="cursor:pointer;color:#00e9c7;font-weight:bold">Analizar antecedentes del IMPI a partir de un archivo</summary>
+            <p class="marca-note">Función experimental. Si cuentas con el CSV de resultados o un JSON normalizado del IMPI, puedes examinar coincidencias sin enviarlo a nuestros servidores. El sitio aún no consulta automáticamente el IMPI.</p>
+            <label for="antecedentes-archivo">Importar CSV o JSON de antecedentes</label>
+            <input id="antecedentes-archivo" type="file" accept=".csv,.json,text/csv,application/json" />
+            <button id="analizar-antecedentes" type="button">Mostrar coincidencias del archivo</button>
+            <p id="estado-antecedentes" role="status" class="marca-note">Archivo no seleccionado.</p>
+            <div id="resultado-antecedentes" aria-live="polite"></div>
+          </details>
           <p>Es necesario analizar productos y servicios, clase(s) aplicables, impedimentos legales y marcas anteriores, incluidas similitudes gráficas, fonéticas o conceptuales.</p>
           <p><strong>Esto no es una resolución de registrabilidad ni una búsqueda efectuada.</strong> La ausencia de coincidencias exactas no garantiza el registro.</p>
           <a href="https://marcia.impi.gob.mx/" target="_blank" rel="noopener noreferrer">Abrir herramienta oficial de consulta del IMPI ↗</a>
@@ -114,6 +123,10 @@
   </main>
   <footer>© Surfing Legals 2026 · <a href="../../quienes-somos/index.html">Conócenos</a> · <a href="../../aviso-de-privacidad/">Aviso de privacidad</a></footer>
   <script src="orientacion-inicial.js"></script>
+  <script src="analizador-impi.js"></script>
+  <script src="analisis-juridico.js"></script>
+  <script src="consulta-json.js"></script>
+  <script src="antecedentes-ui.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
     (() => {
@@ -124,6 +137,22 @@
       const contactoNombre = document.getElementById('contacto-nombre');
       const contactoCorreo = document.getElementById('contacto-correo');
       let consultaActual = null;
+      document.getElementById('analizar-antecedentes').addEventListener('click',async()=>{
+        const file=document.getElementById('antecedentes-archivo').files[0];
+        const status=document.getElementById('estado-antecedentes');
+        const output=document.getElementById('resultado-antecedentes');
+        output.replaceChildren();
+        if(!consultaActual){status.textContent='Primero prepara la consulta de la marca.';return;}
+        if(!file){status.textContent='Selecciona un CSV o JSON.';return;}
+        if(!/\.(csv|json)$/i.test(file.name)||file.size>12*1024*1024){
+          status.textContent='Selecciona un CSV o JSON de hasta 12 MB.';return;
+        }
+        try{
+          const parsed=SLAntecedentesUI.analyze(await file.text(),file.name,consultaActual.marca);
+          SLAntecedentesUI.render(parsed,output);
+          status.textContent='Análisis local completado. El archivo no se ha enviado a servidores.';
+        }catch(err){status.textContent='No se pudo analizar el archivo: '+err.message;}
+      });
       const testButton=document.getElementById('enviar-prueba');
       const testStatus=document.getElementById('estado-prueba');
       let requestId=null;
