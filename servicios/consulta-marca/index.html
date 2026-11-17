@@ -80,6 +80,11 @@
             <p class="marca-note">Turnstile está disponible en este prototipo de pruebas. La solicitud sigue preparándose por correo; aún no se registra automáticamente en nuestra base comercial.</p>
             <a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Preparar correo de solicitud ↗</a>
             <p class="marca-note">Tus datos se usarán para atender tu consulta. <a href="../../aviso-de-privacidad/">Aviso de privacidad</a>.</p>
+            <div id="prueba-recepcion" style="margin-top:24px;padding:18px;border:1px dashed #00e9c788;border-radius:12px">
+              <p class="marca-note"><strong>Solo para pruebas técnicas.</strong> El botón siguiente envía una solicitud completamente ficticia a nuestra hoja comercial de prueba; no utiliza los datos que escribiste arriba.</p>
+              <button id="enviar-prueba" type="button">Enviar prospecto ficticio</button>
+              <p id="estado-prueba" class="marca-note" role="status" aria-live="polite">No se ha enviado ningún registro.</p>
+            </div>
           </div>
           <p class="marca-note">Al elegir solicitar revisión, se abrirá tu aplicación de correo con un borrador. Tú decides si enviarlo; no hay captura automática de prospectos en esta versión.</p>
         </div>
@@ -110,6 +115,54 @@
       const contactoNombre = document.getElementById('contacto-nombre');
       const contactoCorreo = document.getElementById('contacto-correo');
       let consultaActual = null;
+      const testButton=document.getElementById('enviar-prueba');
+      const testStatus=document.getElementById('estado-prueba');
+      let requestId=null;
+      testButton.addEventListener('click', async () => {
+        if (!window.turnstile || !window.crypto || !crypto.randomUUID) {
+          testStatus.textContent='No está disponible la verificación. Actualiza la página e intenta de nuevo.';
+          return;
+        }
+        const captcha=window.turnstile.getResponse();
+        if(!captcha){
+          testStatus.textContent='Primero completa la verificación de Cloudflare.';
+          return;
+        }
+        requestId ||= crypto.randomUUID();
+        testButton.disabled=true;
+        testStatus.textContent='Enviando únicamente datos ficticios…';
+        const payload={
+          schema:'sl.lead.marca.v1',
+          request_id:requestId,
+          marca:'PRUEBA INTERNA - MARCA DEMO',
+          productos_servicios:'Solicitud técnica ficticia sin datos de clientes.',
+          etapa:'Prueba interna',
+          nombre_contacto:'Prospecto Ficticio',
+          correo_contacto:'prueba-interna@example.com',
+          aviso_version:'2026-11-17',
+          turnstile_token:captcha
+        };
+        try{
+          const response=await fetch('/api/prospectos',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+          });
+          const data=await response.json();
+          if(response.ok && data.ok && typeof data.id==='string'){
+            testStatus.textContent='Recepción confirmada por Google. ID: '+data.id+(data.duplicate?' (sin duplicar)':'');
+            testButton.disabled=true;
+          }else{
+            testStatus.textContent='La prueba no se confirmó. Código '+response.status+'; error: '+(data.error||'desconocido')+'.';
+            testButton.disabled=false;
+            window.turnstile.reset();
+          }
+        }catch(error){
+          testStatus.textContent='No se pudo confirmar la recepción. Inténtalo de nuevo o revisa los registros de Cloudflare.';
+          testButton.disabled=false;
+          window.turnstile.reset();
+        }
+      });
       function prepararCorreo() {
         if (!consultaActual) return;
         if (contactoCorreo.value && !contactoCorreo.checkValidity()) {
