@@ -36,6 +36,15 @@ export async function onRequestPost({request,env}){
       name=clean(p.nombre_contacto,100),email=clean(p.correo_contacto,160);
     if(!mark||!services||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
       return reply({ok:false,error:"invalid_fields"},400);
+    // Fase piloto: únicamente se aceptan datos sintéticos en el dominio de pruebas.
+    // La recepción de clientes reales requiere una decisión posterior de activación.
+    const previewOrigin="https://feature-consulta-marca-v1.surfinglegals.pages.dev";
+    if(origin!==previewOrigin)
+      return reply({ok:false,error:"pilot_preview_only"},403);
+    if(mark!=="PRUEBA INTERNA - MARCA DEMO" ||
+       services!=="Solicitud técnica ficticia sin datos de clientes." ||
+       name!=="Prospecto Ficticio" || email!=="prueba-interna@example.com")
+      return reply({ok:false,error:"pilot_synthetic_only"},403);
     if(p.aviso_version!==env.SL_PRIVACY_VERSION)
       return reply({ok:false,error:"privacy_required"},400);
     if(!/^[0-9a-fA-F-]{36}$/.test(clean(p.request_id,80)))
