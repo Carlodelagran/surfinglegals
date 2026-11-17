@@ -17,3 +17,16 @@ assert.equal(result.traducciones_sugeridas.length,0);
 assert.equal(J.phoneticES("VACA"),J.phoneticES("BACA"));
 assert.equal(result.total,3);
 console.log("Pruebas básicas del analizador: OK");
+
+// Fixture de ocho columnas con el esquema exacto observado en el CSV recibido.
+const csvIMPI = '#,Denominación,Expediente,Registro,Titular,Clase,TS,Actuación o fecha publicada en ficha\n'+
+ '1,RETRO GAME,2220564,2157492,TELEVISA,41,M,Concesión 14/10/2020. Fecha de vigencia publicada 13/06/2029.\n'+
+ '2,GAME FEST,1352323,,FIDEICOMISO,41,M,Ficha individual no revisada\n';
+const parsedIMPI=S.parseCSV(csvIMPI);
+const mappedIMPI=S.rowsToRecords(parsedIMPI,{orden:0,denominacion:1,expediente:2,registro:3,titular:4,clase:5,estatus:-1,actuacion:7});
+assert.equal(mappedIMPI[0].orden_original,1);
+assert.equal(mappedIMPI[0].actuacion.startsWith('Concesión'),true);
+const resultIMPI=J.report('RETRO GAME FEST',mappedIMPI,{clase:41});
+assert.equal(resultIMPI.fichas_con_actuacion_revisada,1);
+assert.equal(resultIMPI.antecedentes.find(x=>x.expediente==='2220564').prioridad,'ALTA');
+assert.equal(resultIMPI.antecedentes.find(x=>x.expediente==='1352323').ficha_revisada,false);
