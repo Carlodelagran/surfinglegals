@@ -48,7 +48,7 @@ th{color:#00e9c7}
 <h2>Antecedentes ordenados</h2>
 <p id="summary"></p>
 <p class="note">La puntuación es una heurística de semejanza textual para priorización, no una calificación fonética, riesgo jurídico ni pronóstico del IMPI. Se requiere cotejar expedientes, servicios y estatus en fuentes oficiales.</p>
-<div class="scroller"><table><thead><tr><th>Orden original</th><th>Denominación</th><th>Expediente</th><th>Titular</th><th>Clase</th><th>Registro</th><th>Prioridad</th><th>Motivo de revisión</th><th>Similitud textual</th></tr></thead><tbody id="results"></tbody></table></div>
+<div class="scroller"><table><thead><tr><th>Orden original</th><th>Denominación</th><th>Expediente</th><th>Titular</th><th>Clase</th><th>Registro</th><th>Actuación anotada</th><th>Prioridad</th><th>Motivo de revisión</th><th>Similitud textual</th></tr></thead><tbody id="results"></tbody></table></div>
 </section>
 </main>
 <script src="../analizador-impi.js"></script>
@@ -57,7 +57,7 @@ th{color:#00e9c7}
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
-const fields=['denominacion','expediente','titular','clase','registro','estatus'];
+const fields=['orden','denominacion','expediente','titular','clase','registro','estatus','actuacion'];
 let rows=[];
 const file=$('csv'), status=$('status'), panel=$('mapping-panel'), output=$('result-panel');
 file.addEventListener('change',async()=>{
@@ -71,10 +71,10 @@ file.addEventListener('change',async()=>{
   for(const key of fields){
    const div=document.createElement('div'),label=document.createElement('label'),select=document.createElement('select');
    label.textContent=key[0].toUpperCase()+key.slice(1);label.htmlFor='map-'+key;select.id='map-'+key;
-   const optional=key==='registro'||key==='estatus';
+   const optional=['orden','registro','estatus','actuacion'].includes(key);
    if(optional){const o=document.createElement('option');o.value='-1';o.textContent='No disponible';select.append(o);}
    columns.forEach((value,index)=>{const o=document.createElement('option');o.value=index;o.textContent=value||'Columna '+(index+1);select.append(o);});
-   const synonyms={denominacion:/denominaci[oó]n|marca|signo|nombre/i,expediente:/expediente/i,titular:/titular|solicitante/i,clase:/clase/i,registro:/registro/i,estatus:/estatus|estado|situaci[oó]n/i};
+   const synonyms={orden:/^#|orden/i,actuacion:/actuaci[oó]n|fecha publicada|observacion/i,denominacion:/denominaci[oó]n|marca|signo|nombre/i,expediente:/expediente/i,titular:/titular|solicitante/i,clase:/clase/i,registro:/registro/i,estatus:/estatus|estado|situaci[oó]n/i};
    const found=columns.findIndex(x=>synonyms[key].test(x));
    if(found>=0)select.value=String(found);else if(optional)select.value='-1';
    div.append(label,select);wrap.append(div);
@@ -91,11 +91,11 @@ $('analyze').addEventListener('click',()=>{
  const tbody=$('results');tbody.replaceChildren();
  for(const record of ranked.slice(0,100)){
   const tr=document.createElement('tr');
-  const values=[record.orden_original,record.denominacion,record.expediente,record.titular,record.clase,record.registro,record.prioridad,record.razones.join(' '),record.comparacion.level.replaceAll('_',' ')+' ('+record.comparacion.score+')'];
+  const values=[record.orden_original,record.denominacion,record.expediente,record.titular,record.clase,record.registro,record.actuacion||'Sin anotación',record.prioridad,record.razones.join(' '),record.comparacion.level.replaceAll('_',' ')+' ('+record.comparacion.score+')'];
   for(const value of values){const td=document.createElement('td');td.textContent=String(value);tr.append(td);}
   tbody.append(tr);
  }
- $('summary').textContent=records.length+' antecedentes importados. Se muestran los primeros '+Math.min(100,ranked.length)+' ordenados por prioridad de revisión y semejanza textual. La fonética y traducciones requieren cotejo profesional.';
+ $('summary').textContent=records.length+' antecedentes importados. Se muestran los primeros '+Math.min(100,ranked.length)+' ordenados por prioridad de revisión y semejanza textual. Fichas con actuación revisada: '+informe.fichas_con_actuacion_revisada+'. El resto requiere verificación individual. La fonética y traducciones requieren cotejo profesional.';
  output.hidden=false;
  }catch(err){status.textContent='No fue posible analizar: '+err.message;}
 });
