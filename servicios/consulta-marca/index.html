@@ -74,6 +74,8 @@
             <label for="contacto-correo">Correo de contacto (opcional)</label>
             <input id="contacto-correo" type="email" maxlength="160" autocomplete="email" placeholder="ejemplo@correo.com">
             <p class="marca-note">Estos datos se utilizarán únicamente para preparar el borrador de correo en tu dispositivo. No se guardan ni se transmiten automáticamente desde el sitio. Podrás revisar el mensaje antes de enviarlo.</p>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAGFT_RMcruxZcsJb" data-theme="dark" aria-label="Verificación antispam Cloudflare Turnstile"></div>
+            <p class="marca-note">Turnstile está disponible en este prototipo de pruebas. La solicitud sigue preparándose por correo; aún no se registra automáticamente en nuestra base comercial.</p>
             <a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Preparar correo de solicitud ↗</a>
           </div>
           <p class="marca-note">Al elegir solicitar revisión, se abrirá tu aplicación de correo con un borrador. Tú decides si enviarlo; no hay captura automática de prospectos en esta versión.</p>
@@ -95,6 +97,7 @@
     </div>
   </main>
   <footer>© Surfing Legals 2026 · <a href="../../quienes-somos/index.html">Conócenos</a></footer>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
     (() => {
       const form = document.getElementById('marca-form');
