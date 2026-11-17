@@ -5,6 +5,7 @@
  * env.SL_ALLOWED_ORIGINS, env.SL_PRIVACY_VERSION,
  * env.TURNSTILE_SECRET.
  * Install only with explicit deployment configuration and privacy notice.
+ * Preview configuration refresh: 2026-11-17 (after Turnstile secret rotation).
  */
 const reply=(data,status)=>new Response(JSON.stringify(data),{
   status,
