@@ -1,0 +1,32 @@
+name: Verificar prototipo marcas
+on:
+  pull_request:
+    paths:
+      - 'servicios/consulta-marca/**'
+      - '.github/workflows/test-consulta-marca.yml'
+  push:
+    branches: [feature/consulta-marca-v1]
+    paths:
+      - 'servicios/consulta-marca/**'
+      - '.github/workflows/test-consulta-marca.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar sintaxis JS
+        run: |
+          node --check servicios/consulta-marca/analizador-impi.js
+          node --check servicios/consulta-marca/analisis-juridico.js
+          node --check servicios/consulta-marca/consulta-json.js
+          node --check servicios/consulta-marca/informe.js
+      - name: Pruebas de regresión
+        run: |
+          node servicios/consulta-marca/tests/analisis.test.js
+          node servicios/consulta-marca/tests/json-import.test.js
