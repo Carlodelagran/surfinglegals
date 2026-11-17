@@ -48,20 +48,21 @@ th{color:#00e9c7}
 <h2>Antecedentes ordenados</h2>
 <p id="summary"></p>
 <p class="note">La puntuación es una heurística de semejanza textual para priorización, no una calificación fonética, riesgo jurídico ni pronóstico del IMPI. Se requiere cotejar expedientes, servicios y estatus en fuentes oficiales.</p>
-<div class="scroller"><table><thead><tr><th>Orden original</th><th>Denominación</th><th>Expediente</th><th>Titular</th><th>Clase</th><th>Registro</th><th>Actuación anotada</th><th>Prioridad</th><th>Motivo de revisión</th><th>Similitud textual</th></tr></thead><tbody id="results"></tbody></table></div>
+<button type="button" id="export-report">Descargar informe preliminar (HTML imprimible)</button><p class="note">El informe se genera en el navegador, sin enviar el CSV a servidores. Puedes abrirlo e imprimirlo o guardarlo como PDF.</p><div class="scroller"><table><thead><tr><th>Orden original</th><th>Denominación</th><th>Expediente</th><th>Titular</th><th>Clase</th><th>Registro</th><th>Actuación anotada</th><th>Prioridad</th><th>Motivo de revisión</th><th>Similitud textual</th></tr></thead><tbody id="results"></tbody></table></div>
 </section>
 </main>
 <script src="../analizador-impi.js"></script>
 <script src="../analisis-juridico.js"></script>
+<script src="../informe.js"></script>
 <script>
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
 const fields=['orden','denominacion','expediente','titular','clase','registro','estatus','actuacion'];
-let rows=[];
+let rows=[];let currentReport=null;
 const file=$('csv'), status=$('status'), panel=$('mapping-panel'), output=$('result-panel');
 file.addEventListener('change',async()=>{
- panel.hidden=true; output.hidden=true;
+ panel.hidden=true; output.hidden=true;currentReport=null;
  const f=file.files&&file.files[0]; if(!f){status.textContent='Selecciona un archivo.';return;}
  if(f.size>8*1024*1024){status.textContent='El archivo supera el límite de 8 MB.';return;}
  try{
@@ -82,12 +83,13 @@ file.addEventListener('change',async()=>{
   status.textContent='CSV leído: '+(rows.length-1)+' filas. Confirma las columnas.';panel.hidden=false;
  }catch(err){status.textContent='Error al leer CSV: '+err.message;}
 });
+$('export-report').addEventListener('click',()=>{ if(!currentReport){status.textContent='Primero analiza un CSV.';return;} SLInforme.download(currentReport,{nombre_pdf:'PDF oficial de búsqueda fonética del IMPI, conservado por el usuario'}); });
 $('analyze').addEventListener('click',()=>{
  try{
  const mapping=Object.fromEntries(fields.map(key=>[key,Number($('map-'+key).value)]));
  const records=SLImpi.rowsToRecords(rows,mapping);
  const informe=SLJuridico.report($('query').value,records,{clase:records[0]?.clase||null});
- const ranked=informe.antecedentes;
+ const ranked=informe.antecedentes;currentReport=informe;
  const tbody=$('results');tbody.replaceChildren();
  for(const record of ranked.slice(0,100)){
   const tr=document.createElement('tr');
