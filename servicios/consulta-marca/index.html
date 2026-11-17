@@ -67,7 +67,15 @@
           <p>Es necesario analizar productos y servicios, clase(s) aplicables, impedimentos legales y marcas anteriores, incluidas similitudes gráficas, fonéticas o conceptuales.</p>
           <p><strong>Esto no es una resolución de registrabilidad ni una búsqueda efectuada.</strong> La ausencia de coincidencias exactas no garantiza el registro.</p>
           <a href="https://marcia.impi.gob.mx/" target="_blank" rel="noopener noreferrer">Abrir herramienta oficial de consulta del IMPI ↗</a>
-          <div><a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Solicitar revisión profesional por correo ↗</a></div>
+          <div id="contacto-bloque">
+            <h3>Solicita seguimiento de un abogado</h3>
+            <label for="contacto-nombre">Nombre de contacto (opcional)</label>
+            <input id="contacto-nombre" maxlength="100" autocomplete="name" placeholder="Tu nombre">
+            <label for="contacto-correo">Correo de contacto (opcional)</label>
+            <input id="contacto-correo" type="email" maxlength="160" autocomplete="email" placeholder="ejemplo@correo.com">
+            <p class="marca-note">Estos datos se utilizarán únicamente para preparar el borrador de correo en tu dispositivo. No se guardan ni se transmiten automáticamente desde el sitio. Podrás revisar el mensaje antes de enviarlo.</p>
+            <a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Preparar correo de solicitud ↗</a>
+          </div>
           <p class="marca-note">Al elegir solicitar revisión, se abrirá tu aplicación de correo con un borrador. Tú decides si enviarlo; no hay captura automática de prospectos en esta versión.</p>
         </div>
       </section>
@@ -93,6 +101,29 @@
       const result = document.getElementById('resultado');
       const summary = document.getElementById('resumen');
       const email = document.getElementById('pedir-analisis');
+      const contactoNombre = document.getElementById('contacto-nombre');
+      const contactoCorreo = document.getElementById('contacto-correo');
+      let consultaActual = null;
+      function prepararCorreo() {
+        if (!consultaActual) return;
+        if (contactoCorreo.value && !contactoCorreo.checkValidity()) {
+          contactoCorreo.reportValidity();
+          email.removeAttribute('href');
+          return;
+        }
+        const {marca,descripcion,etapa} = consultaActual;
+        const subject = 'Solicitud de revisión preliminar de marca: ' + marca;
+        const body = 'Hola, Surfing Legals.\n\nQuiero solicitar una revisión jurídica de mi marca.\n\nMarca: ' + marca + '\nProductos o servicios: ' + descripcion + '\nEtapa: ' + etapa +
+          '\nNombre: ' + contactoNombre.value.trim() + '\nCorreo de contacto: ' + contactoCorreo.value.trim() +
+          '\n\nAgradeceré que me indiquen los pasos y honorarios para su análisis.';
+        email.href = 'mailto:carlos@surfinglegals.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      }
+      contactoNombre.addEventListener('input',prepararCorreo);
+      contactoCorreo.addEventListener('input',prepararCorreo);
+      email.addEventListener('click',event=>{
+        prepararCorreo();
+        if(!email.hasAttribute('href'))event.preventDefault();
+      });
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
@@ -101,9 +132,8 @@
         const etapa = form.elements.etapa.value;
         if (!marca || !descripcion) return;
         summary.textContent = 'Marca: ' + marca + '. Actividad: ' + descripcion + '. Etapa: ' + etapa + '.';
-        const subject = 'Solicitud de revisión preliminar de marca: ' + marca;
-        const body = 'Hola, Surfing Legals.\n\nQuiero solicitar una revisión jurídica de mi marca.\n\nMarca: ' + marca + '\nProductos o servicios: ' + descripcion + '\nEtapa: ' + etapa + '\n\nAgradeceré que me indiquen los pasos y honorarios para su análisis.';
-        email.href = 'mailto:carlos@surfinglegals.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        consultaActual = {marca,descripcion,etapa};
+        prepararCorreo();
         result.hidden = false;
         result.scrollIntoView({ behavior:'smooth', block:'nearest' });
       });
