@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consulta preliminar para preparar el registro de tu marca en México con Surfing Legals. Identifica los primeros pasos antes de acudir al IMPI.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Consulta preliminar de marca | Surfing Legals — Prueba</title>
+  <link rel="stylesheet" href="../../style.css">
+  <style>
+    body.pagina-marca{background:#1c1937;color:#fff;font-family:Arial,Helvetica,sans-serif}
+    .marca-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff22;padding:20px max(5%,20px)}
+    .marca-nav a{color:#fff;font-size:13px;letter-spacing:1px}.marca-nav img{width:34px}
+    .marca-main{max-width:1080px;margin:0 auto;padding:65px 22px 50px}
+    .marca-kicker{color:#00e9c7;font-size:12px;letter-spacing:2.5px;font-weight:bold;text-transform:uppercase}
+    .marca-main h1{font-size:clamp(35px,5.6vw,68px);line-height:1.08;letter-spacing:-1.7px;margin:17px 0 24px}
+    .marca-main h1 span{color:#00e9c7}.marca-intro{font-size:17px;line-height:1.7;color:#d3d0e2;max-width:700px}
+    .marca-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:26px;margin-top:48px}
+    .marca-card{background:#24213e;border:1px solid #ffffff25;border-radius:18px;padding:28px}
+    .marca-card h2{font-size:25px;margin:0 0 17px}.marca-card p{color:#d3d0e2}
+    .marca-card label{display:block;margin:17px 0 7px;font-weight:600;font-size:14px}
+    .marca-card input,.marca-card textarea,.marca-card select{width:100%;box-sizing:border-box;border-radius:10px;border:1px solid #78768c;background:#141329;color:#fff;padding:14px;font:inherit;font-size:16px}
+    .marca-card textarea{min-height:94px;resize:vertical}
+    .marca-card button,.marca-action{display:inline-block;margin-top:22px;padding:15px 20px;background:#00e9c7;color:#1c1937;border:0;border-radius:10px;font-weight:bold;font-size:14px;cursor:pointer;text-decoration:none}
+    .marca-card button:focus-visible,.marca-card a:focus-visible{outline:3px solid #e72efc;outline-offset:3px}
+    .marca-note{font-size:13px;color:#b4b0cb;line-height:1.6}
+    .marca-list{list-style:none;padding:0;margin:0}.marca-list li{padding:14px 0;border-bottom:1px solid #ffffff20;color:#e5e4ed}
+    .marca-list li::before{content:"✓";color:#00e9c7;font-weight:bold;margin-right:10px}
+    .marca-results{margin-top:24px;padding:22px;border-radius:14px;background:#121c2c;border:1px solid #00e9c766}
+    .marca-results h3{font-size:22px;color:#fff;margin:0 0 10px}
+    .marca-results p{line-height:1.65}.marca-results a{color:#00e9c7;text-decoration:underline}
+    .marca-status{color:#00e9c7;font-weight:700}
+    [hidden]{display:none!important}
+    @media(max-width:760px){.marca-grid{grid-template-columns:1fr}.marca-main{padding-top:38px}.marca-card{padding:20px}.marca-nav{padding:15px 20px}}
+  </style>
+</head>
+<body class="pagina-marca">
+  <nav class="marca-nav" aria-label="Navegación">
+    <a href="../../index.html" aria-label="Inicio Surfing Legals"><img src="../../img/isotipo-surfing-legals.svg" alt="Surfing Legals"></a>
+    <a href="../../quienes-somos/index.html">QUIÉNES SOMOS</a>
+  </nav>
+  <main class="marca-main">
+    <p class="marca-kicker">SURFING LEGALS · PROPIEDAD INTELECTUAL</p>
+    <h1>¿Quieres registrar <span>tu marca?</span></h1>
+    <p class="marca-intro">Comienza con una consulta preliminar. Cuéntanos cómo se llama tu marca y qué identifica; te mostraremos los pasos que conviene revisar antes de solicitar su registro ante el IMPI.</p>
+    <div class="marca-grid">
+      <section class="marca-card" aria-labelledby="titulo-formulario">
+        <h2 id="titulo-formulario">Prepara tu consulta</h2>
+        <form id="marca-form">
+          <label for="nombre-marca">Nombre de la marca *</label>
+          <input id="nombre-marca" name="marca" maxlength="100" autocomplete="off" required placeholder="Ej. Aurora Café">
+          <label for="descripcion">¿Qué productos o servicios distinguirá? *</label>
+          <textarea id="descripcion" name="descripcion" maxlength="600" required placeholder="Ej. Cafetería y venta de café tostado"></textarea>
+          <label for="tipo">¿En qué etapa estás?</label>
+          <select id="tipo" name="etapa">
+            <option value="Por lanzar">Estoy por lanzar mi negocio</option>
+            <option value="En operación">Mi negocio ya está funcionando</option>
+            <option value="Conflicto o requerimiento">Tengo un conflicto o requerimiento</option>
+          </select>
+          <button type="submit">Ver los siguientes pasos →</button>
+          <p class="marca-note">Esta etapa funciona en tu navegador: todavía no enviamos datos a servidores ni consultamos automáticamente el IMPI.</p>
+        </form>
+        <div id="resultado" class="marca-results" hidden aria-live="polite">
+          <p class="marca-status">Consulta preliminar preparada</p>
+          <h3>Tu siguiente paso es revisar antecedentes</h3>
+          <p id="resumen"></p>
+          <p>Es necesario analizar productos y servicios, clase(s) aplicables, impedimentos legales y marcas anteriores, incluidas similitudes gráficas, fonéticas o conceptuales.</p>
+          <p><strong>Esto no es una resolución de registrabilidad ni una búsqueda efectuada.</strong> La ausencia de coincidencias exactas no garantiza el registro.</p>
+          <a href="https://marcia.impi.gob.mx/" target="_blank" rel="noopener noreferrer">Abrir herramienta oficial de consulta del IMPI ↗</a>
+          <div><a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Solicitar revisión profesional por correo ↗</a></div>
+          <p class="marca-note">Al elegir solicitar revisión, se abrirá tu aplicación de correo con un borrador. Tú decides si enviarlo; no hay captura automática de prospectos en esta versión.</p>
+        </div>
+      </section>
+      <aside class="marca-card">
+        <p class="marca-kicker">¿QUÉ REVISAMOS?</p>
+        <h2>Más que buscar un nombre idéntico.</h2>
+        <ul class="marca-list">
+          <li>Actividad y productos o servicios</li>
+          <li>Clasificación pertinente</li>
+          <li>Antecedentes y posibles semejanzas</li>
+          <li>Impedimentos legales</li>
+          <li>Estrategia de solicitud y seguimiento</li>
+        </ul>
+        <p>Surfing Legals brinda asesoría jurídica especializada en marcas, desde la solicitud inicial hasta la defensa de derechos.</p>
+        <p class="marca-note">Una evaluación preliminar no sustituye el análisis jurídico profesional ni garantiza que el IMPI conceda el registro.</p>
+      </aside>
+    </div>
+  </main>
+  <footer>© Surfing Legals 2026 · <a href="../../quienes-somos/index.html">Conócenos</a></footer>
+  <script>
+    (() => {
+      const form = document.getElementById('marca-form');
+      const result = document.getElementById('resultado');
+      const summary = document.getElementById('resumen');
+      const email = document.getElementById('pedir-analisis');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const marca = form.elements.marca.value.trim();
+        const descripcion = form.elements.descripcion.value.trim();
+        const etapa = form.elements.etapa.value;
+        if (!marca || !descripcion) return;
+        summary.textContent = 'Marca: ' + marca + '. Actividad: ' + descripcion + '. Etapa: ' + etapa + '.';
+        const subject = 'Solicitud de revisión preliminar de marca: ' + marca;
+        const body = 'Hola, Surfing Legals.\n\nQuiero solicitar una revisión jurídica de mi marca.\n\nMarca: ' + marca + '\nProductos o servicios: ' + descripcion + '\nEtapa: ' + etapa + '\n\nAgradeceré que me indiquen los pasos y honorarios para su análisis.';
+        email.href = 'mailto:carlos@surfinglegals.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        result.hidden = false;
+        result.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      });
+    })();
+  </script>
+</body>
+</html>
