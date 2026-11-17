@@ -31,15 +31,14 @@ function validate_(p) {
   const marca=clean_(p.marca,100), servicios=clean_(p.productos_servicios,600);
   const nombre=clean_(p.nombre_contacto,100), correo=clean_(p.correo_contacto,160);
   const etapa=clean_(p.etapa,50), source=clean_(p.origen_url,300);
-  const accepted=p.acepto_privacidad===true;
-  if (!marca || !servicios || !nombre || !correo || !accepted) throw Error('Faltan datos obligatorios o aceptación de privacidad');
+  if (!marca || !servicios || !nombre || !correo) throw Error('Faltan datos obligatorios');
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(correo)) throw Error('Correo no válido');
-  if (!/^https:\/\/(?:www\.)?surfinglegals\.com(?:\/|$)/i.test(source)) throw Error('Origen no autorizado');
+  if (!/^https:\/\/(?:(?:www\.)?surfinglegals\.com|feature-consulta-marca-v1\.surfinglegals\.pages\.dev)(?:\/|$)/i.test(source)) throw Error('Origen no autorizado');
   if (typeof p.aviso_version!=='string' || !p.aviso_version.trim()) throw Error('Falta versión del aviso de privacidad');
   const requestId=clean_(p.request_id,80);
   if (!/^[0-9a-fA-F-]{36}$/.test(requestId)) throw Error('Identificador de envío inválido');
   return {marca,servicios,nombre,correo,etapa,source,requestId,
-    aviso:clean_(p.aviso_version,60),acceptedAt:clean_(p.aceptado_en,40)};
+    aviso:clean_(p.aviso_version,60),presentedAt:clean_(p.aviso_puesto_a_disposicion_en,40)};
 }
 function doPost(e) {
   try {
@@ -69,7 +68,7 @@ function doPost(e) {
         cellSafe_(p.source,300),cellSafe_(p.correo,160),'',
         'Nuevo','Normal','Contactar para diagnóstico','',
         cellSafe_('Marca: '+p.marca+' | Productos/servicios: '+p.servicios+' | Etapa: '+p.etapa+
-          ' | Privacidad: '+p.aviso+' | Aceptada: '+p.acceptedAt,1500),now
+          ' | Aviso de privacidad: '+p.aviso+' | Puesto a disposición: '+p.presentedAt,1500),now
       ];
       sheet.appendRow(row);
       SpreadsheetApp.flush();
