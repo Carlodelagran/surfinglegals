@@ -27,8 +27,10 @@ jobs:
           node --check servicios/consulta-marca/consulta-json.js
           node --check servicios/consulta-marca/informe.js
           node --check servicios/consulta-marca/orientacion-inicial.js
+          node --check servicios/consulta-marca/antecedentes-ui.js
       - name: Pruebas de regresión
         run: |
           node servicios/consulta-marca/tests/analisis.test.js
           node servicios/consulta-marca/tests/json-import.test.js
           node servicios/consulta-marca/tests/orientacion.test.js
+          node servicios/consulta-marca/tests/antecedentes-ui.test.js
