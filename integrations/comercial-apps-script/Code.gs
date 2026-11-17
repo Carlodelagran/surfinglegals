@@ -80,3 +80,29 @@ function doPost(e) {
     return output_({ok:false,error:'request_failed'});
   }
 }
+
+/**
+ * Ejecutar manualmente desde el editor Apps Script antes de implementar.
+ * Solo comprueba configuración y encabezados; NO escribe prospectos.
+ */
+function comprobarConfiguracion() {
+  const properties=PropertiesService.getScriptProperties();
+  const id=properties.getProperty('SL_SHEET_ID');
+  const token=properties.getProperty('SL_INGEST_TOKEN');
+  const estado={
+    hojaConfigurada:!!id,
+    tokenConfigurado:!!token && token.length>=32,
+    pestanaExiste:false,
+    encabezadosCorrectos:false
+  };
+  if(id){
+    const sheet=SpreadsheetApp.openById(id).getSheetByName('PROSPECTOS');
+    estado.pestanaExiste=!!sheet;
+    if(sheet){
+      const headers=sheet.getRange(1,1,1,FIELDS.length).getDisplayValues()[0];
+      estado.encabezadosCorrectos=FIELDS.every((name,i)=>headers[i]===name);
+    }
+  }
+  console.log(JSON.stringify(estado));
+  return estado;
+}
