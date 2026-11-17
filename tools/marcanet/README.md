@@ -25,3 +25,15 @@ No eludir CAPTCHAs, controles de sesión, autenticación, restricciones del port
 
 ## Próximo desarrollo
 Validar los selectores DOM con una sesión real supervisada. Solo entonces implementar lectura de tabla y descarga autenticada, con una comparación obligatoria contra los archivos oficiales. El CSV del caso RETRO GAME FEST se conserva como conjunto de regresión; no implica que el flujo del portal esté automatizado.
+
+## Verificación técnica de los paquetes descargados por Work
+
+Usar el verificador local, sin enviar documentos a terceros:
+
+```bash
+python3 verificar_paquete.py "IMPI_RETRO_GAME_FEST_clase_41.zip" --marca "RETRO GAME FEST" --clase 41
+```
+
+Comprueba esquema del CSV, orden de filas, duplicados, número de registros, actuaciones documentadas, encabezado PDF y hashes SHA-256. Permite expedientes multiclase si incluyen la clase buscada. El resultado `validado_estructuralmente` no afirma que el contenido del PDF coincide íntegramente con el CSV, ni que las marcas están vigentes. No publica datos de clientes ni evidencia en GitHub.
+
+**Caso de regresión real:** el paquete aportado para RETRO GAME FEST clase 41 arrojó 297 antecedentes distintos; 292 filas con «41» como única clase y cinco filas multiclase que incluyen la clase 41; 177 con número de registro; ocho con anotaciones de actuaciones revisadas; ninguna denominación idéntica. Estos datos son una comprobación histórica de ese paquete, no una consulta en vivo.
