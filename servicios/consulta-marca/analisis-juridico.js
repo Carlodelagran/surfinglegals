@@ -32,16 +32,21 @@
       else if(raw.sharedOrdered) reasons.push("Ambos signos comparten una secuencia continua de palabras.");
       else if(raw.sharedTokens.length) reasons.push("Comparten palabras: "+raw.sharedTokens.join(", ")+".");
       if(phoneticMatch && !raw.exact) reasons.push("Equivalencia bajo reglas ortográficas aproximadas del español; pronunciación por verificar.");
-      if(!r.estatus) reasons.push("Estatus no proporcionado o no verificado en ficha oficial.");
+      const act=String(r.actuacion||"");
+      const evidenceReviewed=!!act && !/ficha individual no revisada/i.test(act);
+      if(evidenceReviewed) reasons.push("Actuación anotada en CSV: "+act);
+      else reasons.push("Ficha individual sin revisión documentada: verificar vigencia, actuaciones y posibles requerimientos.");
+      if(!r.estatus) reasons.push("No se reportó un estatus registral verificado.");
+
       if(!r.servicios) reasons.push("Servicios específicos no cotejados con título o expediente.");
       const priority=raw.exact||fullBeginning||prefixMatch?"ALTA":raw.sharedOrdered||phoneticMatch?"MEDIA":"REVISAR";
-      return {...r,indice_original:r.orden_original??index+1,comparacion:raw,prioridad:priority,razones:reasons,fonetica_aproximada_es:phoneticMatch};
+      return {...r,indice_original:r.orden_original??index+1,comparacion:raw,prioridad:priority,razones:reasons,fonetica_aproximada_es:phoneticMatch,ficha_revisada:evidenceReviewed};
     });
     const tiers={ALTA:0,MEDIA:1,REVISAR:2};
     analyzed.sort((a,b)=>tiers[a.prioridad]-tiers[b.prioridad]||b.comparacion.score-a.comparacion.score||a.indice_original-b.indice_original);
     return {
       denominacion:query,clase:metadata?.clase??null,fecha_consulta:metadata?.fecha_consulta??null,
-      total:analyzed.length,antecedentes:analyzed,
+      total:analyzed.length,fichas_con_actuacion_revisada:analyzed.filter(r=>r.ficha_revisada).length,antecedentes:analyzed,
       traducciones_sugeridas:[],
       advertencias:[
         "La prioridad identifica expedientes a examinar, no determina riesgo legal ni registrabilidad.",
