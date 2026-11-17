@@ -37,3 +37,16 @@ python3 verificar_paquete.py "IMPI_RETRO_GAME_FEST_clase_41.zip" --marca "RETRO 
 Comprueba esquema del CSV, orden de filas, duplicados, número de registros, actuaciones documentadas, encabezado PDF y hashes SHA-256. Permite expedientes multiclase si incluyen la clase buscada. El resultado `validado_estructuralmente` no afirma que el contenido del PDF coincide íntegramente con el CSV, ni que las marcas están vigentes. No publica datos de clientes ni evidencia en GitHub.
 
 **Caso de regresión real:** el paquete aportado para RETRO GAME FEST clase 41 arrojó 297 antecedentes distintos; 292 filas con «41» como única clase y cinco filas multiclase que incluyen la clase 41; 177 con número de registro; ocho con anotaciones de actuaciones revisadas; ninguna denominación idéntica. Estos datos son una comprobación histórica de ese paquete, no una consulta en vivo.
+
+
+## Normalización de datos y trazabilidad (nuevo)
+El importador `importar_paquete.py` transforma el ZIP aportado por Work (CSV+PDF) en un JSON con expediente individual, orden original, marcas, titular, clases, número de registro, nota de actuación, estado de revisión y hashes SHA-256 de los archivos fuente.
+
+```bash
+python3 importar_paquete.py "IMPI_RETRO_GAME_FEST_clase_41.zip" \
+  --marca "RETRO GAME FEST" --clase 41 --salida "consulta.json"
+```
+
+En la prueba local con el paquete de ejemplo: **297 expedientes, 0 denominaciones idénticas y 8 fichas con actuaciones anotadas**. Las cinco filas multiclase se aceptan cuando incluyen la clase solicitada.
+
+**Privacidad:** `consulta.json`, el ZIP y los PDF no deben subirse a este repositorio público si contienen datos de clientes o material sensible. El importador no guarda información en SIGES ni llama a MARCANET.
