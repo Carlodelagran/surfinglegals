@@ -61,11 +61,12 @@
     const cols=rows[0];
     for (const required of ['denominacion','expediente','titular','clase']) if (mapping[required]===undefined || mapping[required]<0 || mapping[required]>=cols.length) throw new Error('Asigna la columna '+required);
     return rows.slice(1).map((r,i)=>({
-      orden_original:i+1,
+      orden_original:mapping.orden>=0?(Number(r[mapping.orden])||i+1):i+1,
       denominacion:r[mapping.denominacion]||'', expediente:r[mapping.expediente]||'', titular:r[mapping.titular]||'',
       clase:r[mapping.clase]||'', registro:mapping.registro>=0?r[mapping.registro]||'':'',
       estatus:mapping.estatus>=0?r[mapping.estatus]||'':'',
-      fuente:'CSV del usuario (pendiente de cotejo con el PDF oficial)',
+      actuacion:mapping.actuacion>=0?r[mapping.actuacion]||'':'',
+      fuente:'CSV importado: los datos de actuaciones solo se consideran documentados si fueron expresamente revisados',
       datos_originales:r,
     }));
   }
