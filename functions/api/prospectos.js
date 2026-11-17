@@ -36,7 +36,7 @@ export async function onRequestPost({request,env}){
       name=clean(p.nombre_contacto,100),email=clean(p.correo_contacto,160);
     if(!mark||!services||!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
       return reply({ok:false,error:"invalid_fields"},400);
-    if(p.acepto_privacidad!==true||p.aviso_version!==env.SL_PRIVACY_VERSION)
+    if(p.aviso_version!==env.SL_PRIVACY_VERSION)
       return reply({ok:false,error:"privacy_required"},400);
     if(!/^[0-9a-fA-F-]{36}$/.test(clean(p.request_id,80)))
       return reply({ok:false,error:"invalid_request_id"},400);
@@ -55,8 +55,8 @@ export async function onRequestPost({request,env}){
       schema:p.schema,marca:mark,productos_servicios:services,
       nombre_contacto:name,correo_contacto:email,
       etapa:clean(p.etapa,50),origen_url:origin+"/servicios/consulta-marca/",
-      request_id:p.request_id,acepto_privacidad:true,
-      aviso_version:p.aviso_version,aceptado_en:new Date().toISOString()
+      request_id:p.request_id,
+      aviso_version:p.aviso_version,aviso_puesto_a_disposicion_en:new Date().toISOString()
     };
     // Redirects from Apps Script ContentService may reach script.googleusercontent.com.
     // Never send secrets to an unvalidated destination.
