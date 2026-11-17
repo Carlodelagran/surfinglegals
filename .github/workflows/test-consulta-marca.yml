@@ -26,7 +26,9 @@ jobs:
           node --check servicios/consulta-marca/analisis-juridico.js
           node --check servicios/consulta-marca/consulta-json.js
           node --check servicios/consulta-marca/informe.js
+          node --check servicios/consulta-marca/orientacion-inicial.js
       - name: Pruebas de regresión
         run: |
           node servicios/consulta-marca/tests/analisis.test.js
           node servicios/consulta-marca/tests/json-import.test.js
+          node servicios/consulta-marca/tests/orientacion.test.js
