@@ -58,8 +58,15 @@ export async function onRequestPost({request,env}){
     if(ip)check.set("remoteip",ip);
     const verdict=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {method:"POST",body:check,signal:AbortSignal.timeout(8000)});
-    if(!verdict.ok || !(await verdict.json()).success)
-      return reply({ok:false,error:"captcha_invalid"},403);
+    const siteverify=await verdict.json().catch(()=>null);
+    if(!verdict.ok || !siteverify?.success){
+      // Only the official, non-secret Turnstile error codes are revealed for pilot troubleshooting.
+      const codes=Array.isArray(siteverify?.["error-codes"]) ? siteverify["error-codes"] : [];
+      const permitted=new Set(["missing-input-secret","invalid-input-secret","missing-input-response",
+        "invalid-input-response","bad-request","timeout-or-duplicate","internal-error"]);
+      const diagnostics=codes.filter(code=>permitted.has(code));
+      return reply({ok:false,error:"captcha_invalid",diagnostic:diagnostics},403);
+    }
     const lead={
       schema:p.schema,marca:mark,productos_servicios:services,
       nombre_contacto:name,correo_contacto:email,
