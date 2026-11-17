@@ -1,0 +1,36 @@
+<!doctype html><html lang="es-MX"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Prueba de recepción | Surfing Legals</title>
+<style>body{background:#1c1937;color:#eee;font:16px/1.6 Arial,sans-serif;margin:auto;padding:35px 20px;max-width:700px}h1{font-size:30px}p{color:#d2cfe0}a{color:#00e9c7}button{background:#00e9c7;border:0;border-radius:9px;padding:15px 20px;font:inherit;font-weight:bold;color:#1c1937;cursor:pointer}button:disabled{opacity:.6}section{background:#24213e;padding:24px;border-radius:14px;border:1px solid #ffffff30}#status{overflow-wrap:anywhere}</style>
+</head><body><p><a href="../">← Consulta de marcas</a> · <a href="../laboratorio/">Laboratorio de antecedentes</a></p>
+<h1>Diagnóstico interno del receptor</h1>
+<section><p>Prueba técnica con datos ficticios. No utiliza información de clientes. El receptor rechaza cualquier otra denominación o correo durante esta fase.</p>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAGFT_RMcruxZcsJb" data-theme="dark"></div>
+<button type="button" id="test">Enviar prospecto ficticio</button>
+<p id="status" role="status">Prueba pendiente.</p></section>
+<p>Solo disponible en el dominio de pruebas autorizado. No habilita la recepción automática de clientes reales.</p>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(()=>{
+const btn=document.getElementById('test'),status=document.getElementById('status');
+let id=null;
+btn.onclick=async()=>{
+ if(!window.turnstile||!crypto.randomUUID){status.textContent='Turnstile o crypto no disponible.';return;}
+ const token=turnstile.getResponse();
+ if(!token){status.textContent='Completa primero la verificación de Cloudflare.';return;}
+ id ||= crypto.randomUUID();
+ btn.disabled=true;status.textContent='Validando y enviando prospecto ficticio…';
+ try{
+  const response=await fetch('/api/prospectos',{method:'POST',headers:{'content-type':'application/json'},
+   body:JSON.stringify({schema:'sl.lead.marca.v1',request_id:id,
+    marca:'PRUEBA INTERNA - MARCA DEMO',productos_servicios:'Solicitud técnica ficticia sin datos de clientes.',
+    etapa:'Prueba interna',nombre_contacto:'Prospecto Ficticio',correo_contacto:'prueba-interna@example.com',
+    aviso_version:'2026-11-17',turnstile_token:token})});
+  const data=await response.json();
+  if(response.ok&&data.ok){status.textContent='Recepción confirmada. ID: '+data.id+(data.duplicate?' (sin duplicar)':'');return;}
+  status.textContent='Respuesta '+response.status+' — '+(data.error||'error')+'. '+(data.diagnostic||[]).join(', ');
+ }catch(e){status.textContent='Error de conexión: recepción no confirmada.';}
+ btn.disabled=false;turnstile.reset();
+};
+})();
+</script></body></html>
