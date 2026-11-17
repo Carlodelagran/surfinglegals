@@ -66,6 +66,14 @@
           <p class="marca-status">Consulta preliminar preparada</p>
           <h3>Tu siguiente paso es revisar antecedentes</h3>
           <p id="resumen"></p>
+          <div id="ruta-inicial" aria-label="Ruta preliminar de revisión" style="margin:18px 0;padding:17px;border:1px solid #ffffff32;border-radius:12px">
+            <p class="marca-kicker">ORIENTACIÓN INICIAL · SIN BÚSQUEDA OFICIAL</p>
+            <p id="estado-consulta"></p>
+            <p id="observacion-inicial"></p>
+            <h4 style="margin:15px 0 7px">Qué debemos verificar</h4>
+            <ol id="ruta-pasos" style="padding-left:23px;line-height:1.7"></ol>
+            <p class="marca-note">Cuando se incorporen antecedentes oficiales, el análisis podrá señalar expedientes prioritarios para revisión. <a href="laboratorio/">Ir al laboratorio interno de antecedentes</a>.</p>
+          </div>
           <p>Es necesario analizar productos y servicios, clase(s) aplicables, impedimentos legales y marcas anteriores, incluidas similitudes gráficas, fonéticas o conceptuales.</p>
           <p><strong>Esto no es una resolución de registrabilidad ni una búsqueda efectuada.</strong> La ausencia de coincidencias exactas no garantiza el registro.</p>
           <a href="https://marcia.impi.gob.mx/" target="_blank" rel="noopener noreferrer">Abrir herramienta oficial de consulta del IMPI ↗</a>
@@ -105,6 +113,7 @@
     </div>
   </main>
   <footer>© Surfing Legals 2026 · <a href="../../quienes-somos/index.html">Conócenos</a> · <a href="../../aviso-de-privacidad/">Aviso de privacidad</a></footer>
+  <script src="orientacion-inicial.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
     (() => {
@@ -190,7 +199,14 @@
         const descripcion = form.elements.descripcion.value.trim();
         const etapa = form.elements.etapa.value;
         if (!marca || !descripcion) return;
-        summary.textContent = 'Marca: ' + marca + '. Actividad: ' + descripcion + '. Etapa: ' + etapa + '.';
+        const orientacion=SLOrientacion.prepare({marca,descripcion,etapa});
+        summary.textContent = 'Marca: '+marca+'. Productos o servicios: '+descripcion+'.';
+        document.getElementById('estado-consulta').textContent=orientacion.explicacion;
+        document.getElementById('observacion-inicial').textContent=orientacion.elementosGenericos.length
+          ? 'Elementos que conviene analizar por su posible carácter común o descriptivo, según los servicios: '+orientacion.elementosGenericos.join(', ')+'. Esto no implica una negativa del IMPI.'
+          : 'No se identificaron palabras en nuestra lista limitada de términos comunes. Esto no significa que el signo sea distintivo ni registrable.';
+        const lista=document.getElementById('ruta-pasos');lista.replaceChildren();
+        orientacion.tareas.forEach(item=>{const li=document.createElement('li');li.textContent=item;lista.append(li);});
         consultaActual = {marca,descripcion,etapa};
         prepararCorreo();
         result.hidden = false;
