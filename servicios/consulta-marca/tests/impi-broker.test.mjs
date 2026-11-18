@@ -5,6 +5,7 @@ assert.equal(officialUrl("https://acervomarcas.impi.gob.mx/marcanet/"),true);
 assert.equal(officialUrl("https://www.impi.gob.mx/"),true);
 assert.equal(officialUrl("https://impi.gob.mx.evil.test/"),false);
 assert.equal(officialUrl("http://marcanet.impi.gob.mx/"),false);
+assert.equal(officialUrl("https://acervomarcas.impi.gob.mx:8181/marcanet/"),true);
 assert.equal(officialUrl("https://impi.gob.mx:8181/"),false);
 const q=validateQuery({marca:"RETRO GAME FEST",clase:41});
 assert.deepEqual(q,{marca:"RETRO GAME FEST",clase:"41"});
