@@ -6,7 +6,7 @@ const officialHost=h=>h==="impi.gob.mx"||h.endsWith(".impi.gob.mx");
 export function officialUrl(value){
   try{
     const u=new URL(value);
-    return u.protocol==="https:" && !u.username && !u.password && officialHost(u.hostname.toLowerCase()) && !u.port;
+    return u.protocol==="https:" && !u.username && !u.password && officialHost(u.hostname.toLowerCase()) && (!u.port || (u.hostname.toLowerCase()==="acervomarcas.impi.gob.mx"&&u.port==="8181"));
   }catch{return false;}
 }
 export function validateQuery(payload){
