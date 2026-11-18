@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'servicios/consulta-marca/**'
+      - 'functions/api/marcas/**'
+      - 'functions/_lib/impi-official.mjs'
       - '.github/workflows/test-consulta-marca.yml'
   push:
     branches: [feature/consulta-marca-v1]
@@ -28,9 +30,12 @@ jobs:
           node --check servicios/consulta-marca/informe.js
           node --check servicios/consulta-marca/orientacion-inicial.js
           node --check servicios/consulta-marca/antecedentes-ui.js
+          node --check functions/api/marcas/consulta.js
+          node --check functions/_lib/impi-official.mjs
       - name: Pruebas de regresión
         run: |
           node servicios/consulta-marca/tests/analisis.test.js
           node servicios/consulta-marca/tests/json-import.test.js
           node servicios/consulta-marca/tests/orientacion.test.js
           node servicios/consulta-marca/tests/antecedentes-ui.test.js
+          node servicios/consulta-marca/tests/impi-broker.test.mjs
