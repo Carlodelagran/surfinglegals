@@ -46,3 +46,32 @@ Flujo verificado manualmente por operador Work:
 - Validar estado de registro, vigencia, servicios, similitud fonética y conceptual con abogado.
 - Probar controles antiabuso, protección de datos y contingencia si IMPI no responde.
 - Mantener rama `main` y producción sin cambios hasta aprobación.
+
+## Integración segura preparada (18/11/2026)
+
+Se añadió `POST /api/marcas/consulta` (Cloudflare Pages Function) y la validación `functions/_lib/impi-official.mjs`.
+
+**Estado real: APAGADO por defecto.** La función devuelve HTTP 503 `fuente_oficial_no_conectada`, sin solicitar al IMPI ni fabricar antecedentes.
+
+Para activarla, se requieren **simultáneamente**:
+- Evidencia de una API oficial documentada y habilitada para uso automatizado, con autorización/condiciones de acceso y soporte de búsqueda por marca y clase.
+- Variables **solo en Preview**, tras autorización de la dirección: `IMPI_OFFICIAL_PROVIDER_ENABLED=true`, `IMPI_OFFICIAL_API_URL` (URL HTTPS estrictamente bajo `impi.gob.mx`) y `IMPI_OFFICIAL_API_KEY` como secreto; `TURNSTILE_SECRET` ya existente.
+- Contrato de respuesta `sl.impi.proveedor.oficial.v1` que exija fuente y URL de consulta oficiales, fecha, denominación, clase, total exacto y expediente único con enlace oficial para **cada** antecedente.
+- Pruebas de integración con datos oficiales, cotejo contra originales y controles de seguridad/rate limiting. **No se ha completado ninguna de estas condiciones.**
+
+No deducir el esquema real del API a partir del contrato: el esquema implementado es **nuestro modelo interno de adaptación**, no documentación del IMPI.
+
+### Vías públicas revisadas
+
+- Servicio oficial de consulta al público: https://acervomarcas.impi.gob.mx:8181/marcanet/ (MARCANET), referencia desde https://www.gob.mx/impi/documentos/registro-de-marcas
+- MARCia: https://marcia.impi.gob.mx/; guía del IMPI https://www.gob.mx/cms/uploads/attachment/file/745081/Gui_a_de_usuario_MARCia_3042022.pdf
+- Otras pantallas visibles bajo dominio oficial: https://desabuscadormarcas.impi.gob.mx/fonetica y https://marcanetqa.impi.gob.mx/; **por sus nombres (desarrollo/QA) no deben tratarse como infraestructura de producción** sin confirmación expresa del IMPI.
+- Datos abiertos: https://transparencia.impi.gob.mx/Paginas/DatosAbiertos.aspx; no se localizó un conjunto público completo que reemplace una búsqueda fonética oficial con estado registral actualizado.
+
+No se encontró una API pública **documentada y autorizada** para ejecutar la búsqueda fonética IMPI automáticamente. No usar endpoints internos descubiertos mediante ingeniería inversa como sustituto de esa autorización.
+
+### Validaciones automatizadas
+
+`servicios/consulta-marca/tests/impi-broker.test.mjs` comprueba con **datos sintéticos**: validación de denominación/clase, rechazo de dominios falsos, conjuntos incompletos, consultas no coincidentes, expedientes repetidos y vínculos no oficiales. Las pruebas sintéticas no acreditan búsquedas reales.
+
+El botón y las tres páginas existentes no cambian su comportamiento público. Solo se incorporó infraestructura aislada en la rama `feature/consulta-marca-v1`.
