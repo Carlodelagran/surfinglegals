@@ -23,7 +23,7 @@ if (marca.length < 3 || marca.length > 100 || !/^(?:[1-9]|[1-3][0-9]|4[0-5])$/.t
 const base = "https://acervomarcas.impi.gob.mx:8181/";
 const salida = path.resolve("tmp/marcanet-pruebas");
 await fs.mkdir(salida, { recursive: true });
-const browser = await chromium.launch({ headless: false, slowMo: 130 });
+const browser = await chromium.launch({ headless: process.env.CI === "true", slowMo: 130 });
 try {
   const context = await browser.newContext({
     locale: "es-MX", acceptDownloads: true,
@@ -58,7 +58,7 @@ try {
         headers.some(x => x.includes("EXPEDIENTE")) &&
         t.querySelectorAll("tbody tr").length > 0;
     });
-  }, { timeout: 45000 }).catch(() => {});
+  }, null, { timeout: 45000 }).catch(() => {});
   isOfficial();
   const tables = await page.locator("table").evaluateAll(list => list.map((t,i) => ({
     index:i,
@@ -105,6 +105,13 @@ try {
     columnas_originales:data.columns,antecedentes
   };
   await fs.writeFile(path.join(salida,"resultado-bruto.json"),JSON.stringify(report,null,2));
+  if (marca === "RETRO GAME FEST" && clase === "41") {
+    if (antecedentes.length !== 297) throw new Error("Validación fallida: se esperaban 297 filas del caso de referencia; revisar paginación o cambios de MARCANET.");
+    const expected=[["2220564","RETRO GAME"],["2220543","RETRO GAME"],["1352323","GAME FEST"]];
+    for (let i=0;i<3;i++) if (antecedentes[i].expediente !== expected[i][0] ||
+      normalize(antecedentes[i].denominacion) !== expected[i][1])
+      throw new Error("Validación fallida: los tres primeros resultados no coinciden con la búsqueda comprobada en Work.");
+  }
   console.log("Captura local completada:",antecedentes.length,"filas; salida:",salida);
   console.log("Confirmar frente al encabezado y contador oficiales, no asumir que todas las coincidencias fueron descargadas.");
   await page.waitForTimeout(1500);
