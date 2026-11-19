@@ -57,7 +57,7 @@ try {
   await page.locator('[id="frmBsqFonetica:busquedaId2"]').click({ timeout: 15000 });
   await page.waitForFunction(() => {
     return [...document.querySelectorAll("table")].some(t => {
-      const headers = [...t.querySelectorAll("thead th")].map(x => x.textContent.toUpperCase());
+      const headers = [...t.querySelectorAll(":scope > thead > tr > th")].map(x => x.textContent.toUpperCase());
       return headers.some(x => x.includes("DENOMINACI")) &&
         headers.some(x => x.includes("EXPEDIENTE")) &&
         t.querySelectorAll(":scope > tbody > tr").length > 0;
@@ -66,7 +66,7 @@ try {
   isOfficial();
   const tables = await page.locator("table").evaluateAll(list => list.map((t,i) => ({
     index:i,
-    headers:[...t.querySelectorAll("thead th")].map(x => (x.textContent||"").trim()),
+    headers:[...t.querySelectorAll(":scope > thead > tr > th")].map(x => (x.textContent||"").trim()),
     rows:t.querySelectorAll(":scope > tbody > tr").length
   })));
   const table = tables.find(t => t.headers.some(x => /denominaci[oó]n/i.test(x)) &&
@@ -78,7 +78,7 @@ try {
     throw new Error("No hubo tabla de resultados reconocible. Revisar captura y tablas; no reportar coincidencias.");
   }
   const data = await page.locator("table").nth(table.index).evaluate(t => ({
-    columns:[...t.querySelectorAll("thead th")].map(x => (x.textContent||"").trim()),
+    columns:[...t.querySelectorAll(":scope > thead > tr > th")].map(x => (x.textContent||"").trim()),
     rows:[...t.querySelectorAll(":scope > tbody > tr")].map(tr =>
       [...tr.querySelectorAll(":scope > td")].map(x => (x.textContent||"").trim())),
   }));
@@ -109,7 +109,7 @@ try {
     columnas:data.columns,indices:index,filas:data.rows.length,primerasFilas:data.rows.slice(0,3)
   }));
   if(!antecedentes.length || antecedentes.some(r=>!r.expediente || !r.denominacion ||
-     !r.clase.split(/\s*[,;/]\s*/).includes(clase)))
+     !r.clase.split(/[,;\/\s]+/).includes(clase)))
     throw new Error("Resultados no compatibles con clase o expediente: detener.");
   const report={
     schema:"sl.impi.captura.navegador.v1",origen:"MARCANET",
