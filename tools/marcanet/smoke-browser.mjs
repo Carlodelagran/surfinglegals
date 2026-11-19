@@ -98,6 +98,16 @@ try {
     titular:row[index.titular]||"",
     clase:row[index.clase]||"",
   }));
+  await fs.writeFile(path.join(salida,"tabla-diagnostico.json"),JSON.stringify({
+    marca,clase,url:page.url(),columnas:data.columns,
+    columnas_identificadas:index,total_filas:data.rows.length,
+    primeras_tres_filas:data.rows.slice(0,3),
+    primeras_tres_extraidas:antecedentes.slice(0,3),
+    filas_no_conformes:antecedentes.filter(r=>!r.expediente||!r.denominacion||!r.clase.split(/\\s*[,;/]\\s*/).includes(clase)).slice(0,8)
+  },null,2));
+  console.log("Diagnóstico tabla MARCANET:",JSON.stringify({
+    columnas:data.columns,indices:index,filas:data.rows.length,primerasFilas:data.rows.slice(0,3)
+  }));
   if(!antecedentes.length || antecedentes.some(r=>!r.expediente || !r.denominacion ||
      !r.clase.split(/\s*[,;/]\s*/).includes(clase)))
     throw new Error("Resultados no compatibles con clase o expediente: detener.");
