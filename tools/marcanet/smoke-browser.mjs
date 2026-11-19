@@ -39,7 +39,11 @@ try {
   isOfficial();
   const queryInput = page.locator('[id="frmBsqFonetica:denominacion"]');
   if (!(await queryInput.count())) {
-    await page.getByText(/búsqueda fonética/i).first().click({ timeout: 15000 });
+    // Open the public URL verified in Work; the PrimeFaces menu item can
+    // exist in DOM while hidden, particularly in headless browsers.
+    await page.goto("https://acervomarcas.impi.gob.mx:8181/marcanet/vistas/common/datos/bsqFoneticaCompleta.pgi",
+      {waitUntil:"domcontentloaded",timeout:45000});
+    isOfficial();
   }
   await queryInput.waitFor({ state: "visible", timeout: 20000 });
   const classInput = page.locator('[id="frmBsqFonetica:clases"]');
