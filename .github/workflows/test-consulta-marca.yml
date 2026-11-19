@@ -5,6 +5,7 @@ on:
       - 'servicios/consulta-marca/**'
       - 'functions/api/marcas/**'
       - 'functions/_lib/impi-official.mjs'
+      - 'tools/marcanet/**'
       - '.github/workflows/test-consulta-marca.yml'
   push:
     branches: [feature/consulta-marca-v1]
@@ -32,6 +33,7 @@ jobs:
           node --check servicios/consulta-marca/antecedentes-ui.js
           node --check functions/api/marcas/consulta.js
           node --check functions/_lib/impi-official.mjs
+          node --check tools/marcanet/smoke-browser.mjs
       - name: Pruebas de regresión
         run: |
           node servicios/consulta-marca/tests/analisis.test.js
