@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es-MX"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Laboratorio — Consulta automática IMPI · Surfing Legals</title>
+<link rel="stylesheet" href="../../../style.css">
+<style>
+body{margin:0;background:#1c1937;color:#faf9ff;font:16px Arial,sans-serif}
+main{max-width:840px;margin:auto;padding:52px 22px 90px}
+a{color:#00e9c7}
+h1{font:700 clamp(27px,4vw,42px) Arial,sans-serif;color:#fff}
+p,li{line-height:1.6;color:#d8d5e6}
+.panel{margin:22px 0;padding:26px;border:1px solid #ffffff27;border-radius:16px;background:#24213e}
+label{display:block;margin:15px 0 6px;font-size:14px;color:#f4f2ff}
+input{box-sizing:border-box;padding:12px;width:100%;background:#131128;color:#fff;border:1px solid #87839d;border-radius:8px;font:inherit}
+button{margin-top:14px;padding:14px 20px;color:#15132a;background:#00e9c7;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+small{color:#c0bbd1}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{text-align:left;padding:11px 8px;border-bottom:1px solid #ffffff26;overflow-wrap:anywhere}
+th{color:#00e9c7}
+.over{overflow-x:auto}
+.status{padding:12px 0}
+.tag{color:#00e9c7;font-size:12px;letter-spacing:2px;font-weight:700}
+[hidden]{display:none!important}
+</style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body><main>
+<a href="../">← Regresar a consulta de marcas</a>
+<p class="tag">SURFING LEGALS · PRUEBA CONTROLADA</p>
+<h1>Laboratorio de búsqueda fonética del IMPI</h1>
+<p>Esta página está separada del servicio al público. Consulta MARCANET únicamente cuando el navegador de Cloudflare esté desplegado y autorizado para pruebas. No sustituye una revisión jurídica.</p>
+<div class="panel">
+<form id="form">
+<label for="marca">Marca</label>
+<input id="marca" name="marca" required minlength="3" maxlength="100" value="RETRO GAME FEST">
+<label for="clase">Clase de Niza (1–45)</label>
+<input id="clase" name="clase" required inputmode="numeric" pattern="([1-9]|[1-3][0-9]|4[0-5])" value="41">
+<p><small>Primera consulta habilitable: RETRO GAME FEST, clase 41. Otras consultas requieren autorización en el laboratorio.</small></p>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAGFT_RMcruxZcsJb" data-theme="dark"></div>
+<button id="enviar" type="submit">Consultar MARCANET</button>
+</form>
+<p class="status" id="status" aria-live="polite"></p>
+</div>
+<section class="panel" id="resultado" hidden aria-live="polite">
+<p class="tag">CAPTURA DE MARCANET / IMPI</p><h2 id="resumen"></h2>
+<p id="metadatos"></p>
+<p id="advertencia"></p>
+<div class="over"><table><thead><tr><th>#</th><th>Marca</th><th>Expediente</th><th>Registro</th><th>Titular</th><th>Clase</th></tr></thead><tbody id="filas"></tbody></table></div>
+<p><small>Máximo 25 filas visibles en este laboratorio. Los datos completos solo se manejan en el servidor. Una celda sin número de registro no prueba rechazo ni abandono.</small></p>
+</section>
+</main><script>
+(()=>{
+"use strict";
+const form=document.getElementById("form"),button=document.getElementById("enviar"),status=document.getElementById("status");
+const result=document.getElementById("resultado");
+form.addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!form.reportValidity())return;
+ const token=window.turnstile?.getResponse();
+ if(!token){status.textContent="Completa la verificación de seguridad.";return;}
+ button.disabled=true;result.hidden=true;status.textContent="Consultando MARCANET. Esto puede tardar unos segundos...";
+ try{
+  const r=await fetch("/api/marcas/laboratorio",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({marca:form.elements.marca.value.trim(),clase:form.elements.clase.value.trim(),turnstile_token:token})});
+  const data=await r.json();
+  if(!r.ok||!data.ok){status.textContent=data.mensaje||"Búsqueda no disponible; el laboratorio todavía no tiene conexión habilitada.";return;}
+  document.getElementById("resumen").textContent=data.marca+" · Clase "+data.clase+" · "+data.total_capturado+" antecedentes capturados";
+  document.getElementById("metadatos").textContent="Fuente: "+data.fuente+" · Consulta: "+data.fecha_consulta+
+    (data.totalidad_verificada?" · Conteo cotejado":" · Totalidad aún no comprobada");
+  document.getElementById("advertencia").textContent=data.advertencia;
+  const tbody=document.getElementById("filas");tbody.replaceChildren();
+  for(const record of data.antecedentes){
+    const tr=document.createElement("tr");
+    for(const key of ["orden","denominacion","expediente","registro","titular","clase"]){
+      const td=document.createElement("td");td.textContent=String(record[key]??"");tr.append(td);
+    }
+    tbody.append(tr);
+  }
+  result.hidden=false;status.textContent="Consulta de prueba completada.";
+ }catch{status.textContent="No pudimos completar la búsqueda. No se mostrarán resultados simulados.";}
+ finally{button.disabled=false;window.turnstile?.reset();}
+});
+})();
+</script></body></html>
