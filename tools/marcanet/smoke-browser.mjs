@@ -60,14 +60,14 @@ try {
       const headers = [...t.querySelectorAll("thead th")].map(x => x.textContent.toUpperCase());
       return headers.some(x => x.includes("DENOMINACI")) &&
         headers.some(x => x.includes("EXPEDIENTE")) &&
-        t.querySelectorAll("tbody tr").length > 0;
+        t.querySelectorAll(":scope > tbody > tr").length > 0;
     });
   }, null, { timeout: 45000 }).catch(() => {});
   isOfficial();
   const tables = await page.locator("table").evaluateAll(list => list.map((t,i) => ({
     index:i,
     headers:[...t.querySelectorAll("thead th")].map(x => (x.textContent||"").trim()),
-    rows:t.querySelectorAll("tbody tr").length
+    rows:t.querySelectorAll(":scope > tbody > tr").length
   })));
   const table = tables.find(t => t.headers.some(x => /denominaci[oó]n/i.test(x)) &&
                                   t.headers.some(x => /expediente/i.test(x)) && t.rows > 0);
@@ -79,8 +79,8 @@ try {
   }
   const data = await page.locator("table").nth(table.index).evaluate(t => ({
     columns:[...t.querySelectorAll("thead th")].map(x => (x.textContent||"").trim()),
-    rows:[...t.querySelectorAll("tbody tr")].map(tr =>
-      [...tr.querySelectorAll("td")].map(x => (x.textContent||"").trim())),
+    rows:[...t.querySelectorAll(":scope > tbody > tr")].map(tr =>
+      [...tr.querySelectorAll(":scope > td")].map(x => (x.textContent||"").trim())),
   }));
   const normalize=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase();
   const columns=data.columns.map(normalize);
