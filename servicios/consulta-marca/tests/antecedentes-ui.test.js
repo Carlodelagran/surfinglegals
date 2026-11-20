@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const impi=require('../analizador-impi.js');
+globalThis.SLImpi=impi;
+const jur=require('../analisis-juridico.js');
+globalThis.SLJuridico=jur;
+const json=require('../consulta-json.js');
+globalThis.SLConsultaJSON=json;
+const ui=require('../antecedentes-ui.js');
+const csv='Denominación,Expediente,Titular,Clase,Registro\\nRETRO GAME,1234,Titular de prueba,41,789\\nGAME FEST,2345,Otro de prueba,41,\\n'.replaceAll('\\n','\n');
+const parsed=ui.readCSV(csv);
+assert.equal(parsed.total,2);
+const ranked=ui.analyze(csv,'lista.csv','RETRO GAME FEST');
+assert.equal(ranked.report.antecedentes.length,2);
+assert.equal(ranked.report.antecedentes[0].prioridad,'ALTA');
+assert.ok(ranked.report.antecedentes.some(x=>x.denominacion==='GAME FEST'));
+assert.throws(()=>ui.readCSV('Col1,Col2\na,b'),/columna/);
+console.log('Importación local: OK');

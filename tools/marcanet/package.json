@@ -1,0 +1,14 @@
+{
+  "name": "surfing-legals-marcanet-poc",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "buscar": "node buscar.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.58.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

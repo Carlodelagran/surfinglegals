@@ -1,0 +1,45 @@
+name: Verificar prototipo marcas
+on:
+  pull_request:
+    paths:
+      - 'servicios/consulta-marca/**'
+      - 'functions/api/marcas/**'
+      - 'functions/_lib/impi-official.mjs'
+      - 'tools/marcanet/**'
+      - 'workers/impi-browser/**'
+      - '.github/workflows/test-consulta-marca.yml'
+  push:
+    branches: [feature/consulta-marca-v1]
+    paths:
+      - 'servicios/consulta-marca/**'
+      - '.github/workflows/test-consulta-marca.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar sintaxis JS
+        run: |
+          node --check servicios/consulta-marca/analizador-impi.js
+          node --check servicios/consulta-marca/analisis-juridico.js
+          node --check servicios/consulta-marca/consulta-json.js
+          node --check servicios/consulta-marca/informe.js
+          node --check servicios/consulta-marca/orientacion-inicial.js
+          node --check servicios/consulta-marca/antecedentes-ui.js
+          node --check functions/api/marcas/consulta.js
+          node --check functions/_lib/impi-official.mjs
+          node --check tools/marcanet/smoke-browser.mjs
+          node --check workers/impi-browser/src/index.mjs
+      - name: Pruebas de regresión
+        run: |
+          node servicios/consulta-marca/tests/analisis.test.js
+          node servicios/consulta-marca/tests/json-import.test.js
+          node servicios/consulta-marca/tests/orientacion.test.js
+          node servicios/consulta-marca/tests/antecedentes-ui.test.js
+          node servicios/consulta-marca/tests/impi-broker.test.mjs
