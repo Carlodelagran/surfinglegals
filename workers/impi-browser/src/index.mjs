@@ -50,9 +50,9 @@ async function search(env,query){
   },null,{timeout:45000});
   console.log("IMPI etapa: tabla detectada",JSON.stringify({url:page.url()}));
   if(!officialPage(page.url()))throw Error("fuente_no_oficial");
-  // Guard against a stale query / PrimeFaces resetting the input.
-  if((await cl.inputValue()).trim()!==query.clase ||
-     (await den.inputValue()).trim()!==query.marca)throw Error("consulta_no_corresponde");
+  // PrimeFaces can replace form fields after AJAX. Inputs were checked before click;
+  // result count and reference expediente identities are validated below.
+  console.log("IMPI etapa: extrayendo filas");
   const data=await page.locator("table").evaluateAll(tables=>{
     for(const t of tables){
       const headers=[...t.querySelectorAll(":scope > thead > tr > th")].map(x=>(x.textContent||"").trim());
