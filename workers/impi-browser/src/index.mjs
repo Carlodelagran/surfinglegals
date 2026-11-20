@@ -22,16 +22,25 @@ async function search(env,query){
  const browser=await launch(env.BROWSER);
  try{
   const page=await browser.newPage();
-  await page.goto(FORM_URL,{waitUntil:"domcontentloaded",timeout:45000});
+  console.log("IMPI etapa: navegando");
+  const response=await page.goto(FORM_URL,{waitUntil:"domcontentloaded",timeout:45000});
+  console.log("IMPI etapa: navegacion",JSON.stringify({http:response?.status(),url:page.url(),titulo:(await page.title()).slice(0,120)}));
   if(!officialPage(page.url()))throw Error("fuente_no_oficial");
   const cl=page.locator('[id="frmBsqFonetica:clases"]');
   const den=page.locator('[id="frmBsqFonetica:denominacion"]');
+  console.log("IMPI etapa: esperando formulario");
   await cl.waitFor({state:"visible",timeout:15000});
+  console.log("IMPI etapa: formulario visible");
   await cl.fill(query.clase);
+  console.log("IMPI etapa: clase capturada");
   await den.fill(query.marca);
+  console.log("IMPI etapa: denominacion capturada");
+  console.log("IMPI etapa: verificando campos");
   if((await cl.inputValue()).trim()!==query.clase ||
      (await den.inputValue()).trim()!==query.marca)throw Error("consulta_no_coincidente");
+  console.log("IMPI etapa: pulsando buscar");
   await page.locator('[id="frmBsqFonetica:busquedaId2"]').click({timeout:20000});
+  console.log("IMPI etapa: esperando tabla");
   await page.waitForFunction(()=>{
     return [...document.querySelectorAll("table")].some(t=>{
       const h=[...t.querySelectorAll(":scope > thead > tr > th")].map(x=>x.textContent.toUpperCase());
@@ -39,6 +48,7 @@ async function search(env,query){
         t.querySelectorAll(":scope > tbody > tr").length>0;
     });
   },null,{timeout:45000});
+  console.log("IMPI etapa: tabla detectada",JSON.stringify({url:page.url()}));
   if(!officialPage(page.url()))throw Error("fuente_no_oficial");
   // Guard against a stale query / PrimeFaces resetting the input.
   if((await cl.inputValue()).trim()!==query.clase ||
