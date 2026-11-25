@@ -14,6 +14,8 @@ export function queryFromInput(input){
   return {marca,clase};
 }
 export function allowedQuery(query,env){
+  // Public mode requires an explicit server-side flag, independent of gateway auth.
+  if(env?.SL_IMPI_PUBLIC_SEARCH_ENABLED==="true")return true;
   if(query.marca===REFERENCE.marca&&query.clase===REFERENCE.clase)return true;
   // Other queries are disabled unless explicitly listed by the operator.
   // Format: 'MARCA|41;OTRA MARCA|35' (up to 3 entries).
