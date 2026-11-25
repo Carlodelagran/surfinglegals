@@ -3,135 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="¿Quieres registrar tu marca en México? Recibe orientación preliminar y solicita a Surfing Legals una revisión jurídica de antecedentes, clases y estrategia ante el IMPI.">
+<title>Buscador de marcas IMPI | Surfing Legals</title>
+<meta name="description" content="Consulta antecedentes de marcas en México mediante una búsqueda fonética en MARCANET del IMPI. Revisión jurídica profesional con Surfing Legals.">
 <meta name="robots" content="noindex,nofollow">
-<title>Registro de marcas y revisión de antecedentes | Surfing Legals</title>
 <link rel="stylesheet" href="../../style.css">
 <style>
-body.pagina-marca{margin:0;background:#1c1937;color:#fff;font-family:Arial,Helvetica,sans-serif}
-.marca-nav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff24;padding:20px max(5%,20px)}
-.marca-nav a{color:#fff;text-decoration:none;font-size:13px;letter-spacing:1px}.marca-nav img{width:34px}
-.marca-main{max-width:1050px;margin:auto;padding:64px 22px}
-.marca-kicker{color:#00e9c7;font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase}
-.marca-main h1{font-size:clamp(34px,5.5vw,64px);line-height:1.1;letter-spacing:-1px;margin:17px 0 20px}
-.marca-main h1 span{color:#00e9c7}
-.marca-intro{max-width:660px;font-size:17px;line-height:1.65;color:#d3d0e2}
-.marca-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);gap:26px;margin-top:42px}
-.marca-card{background:#24213e;border:1px solid #ffffff27;border-radius:18px;padding:27px}
-.marca-card h2{font-size:25px;margin:0 0 12px;color:#fff}
-.marca-card h3{font-size:21px;margin:14px 0;color:#fff}
-.marca-card label{display:block;font-size:14px;font-weight:600;margin:17px 0 7px;color:#fff}
-.marca-card input,.marca-card textarea,.marca-card select{box-sizing:border-box;width:100%;font:inherit;font-size:16px;padding:13px;border-radius:10px;border:1px solid #807c97;background:#141329;color:#fff}
-.marca-card textarea{min-height:95px;resize:vertical}
-.marca-card button,.marca-action{display:inline-block;margin-top:20px;padding:14px 18px;border:0;border-radius:10px;background:#00e9c7;color:#1c1937!important;font:inherit;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer}
-.marca-card button:focus-visible,.marca-card a:focus-visible{outline:3px solid #e72efc;outline-offset:4px}
-.marca-card p{color:#d3d0e2;line-height:1.65}
-.marca-note{font-size:13px!important;color:#bdb9ce!important;line-height:1.55}
-.marca-card a:not(.marca-action){color:#00e9c7}
-.marca-result{margin-top:24px;padding:23px;background:#141c2e;border:1px solid #00e9c75c;border-radius:14px}
-.marca-result ol{padding-left:24px;color:#e0dfeb;line-height:1.65}.marca-result li{margin-bottom:9px}
-.marca-list{padding-left:20px;color:#e5e4ed;line-height:1.75}.marca-list li{margin:12px 0}
-.marca-cta{border-top:1px solid #ffffff24;padding-top:20px;margin-top:21px}
-.marca-cta .marca-action{margin-top:9px}
-.marca-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:23px}
-.marca-hero-actions .marca-action{margin-top:0}
-.marca-hero-actions a:not(.marca-action){color:#00e9c7;font-weight:600;text-underline-offset:4px}
-.marca-proceso{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}
-.marca-proceso span{display:inline-flex;border:1px solid #ffffff33;border-radius:99px;padding:8px 13px;font-size:12px;color:#e0dceb}
-footer{padding:30px 22px;text-align:center;border-top:1px solid #ffffff23;color:#d3d0e2;font-size:13px}
-footer a{color:#00e9c7}
+body{margin:0;background:#1c1937;color:#faf9ff;font-family:Arial,Helvetica,sans-serif}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px max(4%,20px);border-bottom:1px solid #ffffff28}
+nav a{color:#fff;text-decoration:none;font-size:13px;letter-spacing:1px}
+nav img{width:34px;height:auto}
+main{max-width:1090px;margin:auto;padding:54px 22px 90px}
+.tag{color:#00e9c7;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,62px);line-height:1.08;margin:14px 0 16px;color:#fff}
+h1 span{color:#00e9c7}
+.intro{max-width:760px;color:#d8d5e6;line-height:1.65;font-size:17px}
+.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(265px,.6fr);gap:22px;margin-top:32px}
+.panel{background:#24213e;border:1px solid #ffffff2c;border-radius:17px;padding:25px;min-width:0}
+h2{font-size:24px;color:#fff;margin:0 0 13px}
+p,li{line-height:1.6}
+.muted{color:#d5d2e3}
+label{display:block;margin:17px 0 7px;font-size:14px;font-weight:700}
+input,select{box-sizing:border-box;width:100%;font:inherit;font-size:16px;padding:13px;border:1px solid #85809e;border-radius:10px;background:#141329;color:#fff}
+button,.cta{display:inline-block;background:#00e9c7;color:#17152c!important;border:0;border-radius:9px;padding:14px 17px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+button{margin-top:20px}button:disabled{opacity:.6;cursor:wait}
+a{color:#00e9c7}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e72efc;outline-offset:3px}
+small,.notice{font-size:13px;color:#c9c4db;line-height:1.5}
+.status{min-height:24px;color:#e7e4f1}
+.results{margin-top:23px}
+.summary{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.count{font-weight:700;color:#00e9c7;font-size:22px}
+.overflow{overflow-x:auto;border:1px solid #ffffff28;border-radius:11px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #ffffff22;overflow-wrap:anywhere}
+th{color:#00e9c7}
+table tr:last-child td{border-bottom:0}
+.action-panel{border-top:1px solid #ffffff28;margin-top:21px;padding-top:20px}
+footer{text-align:center;border-top:1px solid #ffffff22;padding:25px;color:#d5d2e3;font-size:13px}
 [hidden]{display:none!important}
-@media(max-width:760px){.marca-grid{grid-template-columns:1fr}.marca-main{padding-top:36px}.marca-card{padding:21px}}
+@media(max-width:780px){.layout{grid-template-columns:1fr}main{padding-top:36px}.panel{padding:19px}}
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
-<body class="pagina-marca">
-<nav class="marca-nav" aria-label="Navegación">
-<a href="../../index.html" aria-label="Inicio Surfing Legals"><img src="../../img/isotipo-surfing-legals.svg" alt="Surfing Legals"></a>
-<a href="../../quienes-somos/index.html">QUIÉNES SOMOS</a>
-</nav>
-<main class="marca-main">
-<p class="marca-kicker">SURFING LEGALS · PROPIEDAD INTELECTUAL</p>
-<h1>¿Quieres registrar <span>tu marca?</span></h1>
-<p class="marca-intro">Antes de invertir en un nombre, conviene revisar antecedentes y posibles impedimentos ante el IMPI. Cuéntanos qué marca quieres proteger y te ayudamos a iniciar su evaluación.</p>
-<div class="marca-hero-actions"><a href="#marca-form" class="marca-action">Empezar mi consulta</a><a href="mailto:carlos@surfinglegals.com?subject=Solicito%20revisi%C3%B3n%20de%20mi%20marca">Hablar con un abogado</a></div>
-<div class="marca-proceso" aria-label="Proceso de atención"><span>1 · Comparte tu marca</span><span>2 · Recibe orientación inicial</span><span>3 · Solicita revisión profesional</span></div>
-<div class="marca-grid">
-<section class="marca-card" aria-labelledby="titulo-formulario">
-<h2 id="titulo-formulario">Empieza con tu marca</h2>
-<form id="marca-form">
-<label for="nombre-marca">Nombre de la marca *</label>
-<input id="nombre-marca" name="marca" maxlength="100" autocomplete="off" required placeholder="Ej. Aurora Café">
-<label for="descripcion">¿Qué productos o servicios distinguirá? *</label>
-<textarea id="descripcion" name="descripcion" maxlength="600" required placeholder="Ej. Cafetería y venta de café tostado"></textarea>
-<label for="tipo">¿En qué etapa estás?</label>
-<select id="tipo" name="etapa">
-<option value="Por lanzar">Estoy por lanzar mi negocio</option>
-<option value="En operación">Mi negocio ya está funcionando</option>
-<option value="Conflicto o requerimiento">Tengo un conflicto o requerimiento</option>
-</select>
-<button type="submit">Continuar con mi marca</button>
-<p class="marca-note">El primer resultado es orientativo y se procesa en tu navegador. La búsqueda oficial de antecedentes la realiza el equipo jurídico cuando solicitas una revisión.</p>
+<body>
+<nav aria-label="Navegación"><a href="../../"><img src="../../img/isotipo-surfing-legals.svg" alt="Surfing Legals"></a><a href="../../quienes-somos/">QUIÉNES SOMOS</a></nav>
+<main>
+<p class="tag">SURFING LEGALS · PROPIEDAD INTELECTUAL</p>
+<h1>Busca antecedentes de <span>tu marca</span></h1>
+<p class="intro">Consulta antecedentes fonéticos en MARCANET, el sistema del IMPI. Esta herramienta muestra resultados de una búsqueda automatizada; la existencia de antecedentes no significa, por sí sola, que tu marca no pueda registrarse.</p>
+<div class="layout">
+<section class="panel" aria-labelledby="titulo-busqueda">
+<h2 id="titulo-busqueda">Consulta de antecedentes</h2>
+<form id="form">
+<label for="marca">Denominación que deseas consultar</label>
+<input id="marca" name="marca" required minlength="3" maxlength="100" autocomplete="off" placeholder="Ej. RETRO GAME FEST">
+<label for="clase">Clase de Niza</label>
+<select id="clase" name="clase" required><option value="" selected disabled>Selecciona una clase (1 a 45)</option></select>
+<p class="notice">Selecciona la clase correspondiente a tus productos o servicios. Si no sabes cuál elegir, podemos ayudarte a identificarla.</p>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAGFT_RMcruxZcsJb" data-theme="dark"></div>
+<button type="submit" id="enviar">Buscar antecedentes en el IMPI</button>
+<p id="status" class="status" aria-live="polite"></p>
 </form>
-<div id="resultado" class="marca-result" hidden aria-live="polite">
-<p class="marca-kicker">RESULTADO PRELIMINAR</p>
-<h3 id="titulo-resultado">Tu marca: pendiente de revisión de antecedentes</h3>
-<p id="resumen"></p>
-<p id="observacion-inicial"></p>
-<h3>Aspectos que revisaremos</h3>
-<ol id="ruta-pasos"></ol>
-<p class="marca-note"><strong>Alcance:</strong> este resultado es orientativo. No se han consultado expedientes oficiales del IMPI ni se ha determinado disponibilidad o registrabilidad de la marca.</p>
-<div class="marca-cta">
-<h3>Solicita una búsqueda profesional de antecedentes</h3>
-<p>Nuestro equipo puede revisar antecedentes oficiales del IMPI, clases aplicables, similitud entre marcas y próximos pasos. La atención y los honorarios se confirman antes de iniciar cualquier servicio.</p>
-<a id="pedir-analisis" class="marca-action" href="mailto:carlos@surfinglegals.com?subject=Consulta%20de%20marca">Solicitar revisión con Surfing Legals</a>
-<p class="marca-note">Se abrirá un borrador en tu aplicación de correo. Tú decides si enviarlo. <a href="../../aviso-de-privacidad/">Aviso de privacidad</a>.</p>
-</div>
-</div>
 </section>
-<aside class="marca-card">
-<p class="marca-kicker">NUESTRA REVISIÓN</p>
-<h2>Protege tu marca con una estrategia jurídica.</h2>
-<ul class="marca-list">
-<li>Productos o servicios y clasificación.</li>
-<li>Antecedentes oficiales en el IMPI.</li>
-<li>Similitud denominativa, fonética y conceptual.</li>
-<li>Situación jurídica de los registros relevantes.</li>
-<li>Estrategia para registrar y defender tu marca.</li>
-</ul>
-<p class="marca-note">La orientación automática no sustituye la revisión de los registros oficiales ni la opinión jurídica.</p>
+<aside class="panel">
+<p class="tag">REVISIÓN PROFESIONAL</p>
+<h2>El resultado de la búsqueda es solo el principio.</h2>
+<p class="muted">Para valorar la viabilidad jurídica de una marca revisamos, entre otros aspectos, la semejanza fonética, gráfica y conceptual, los productos o servicios y la situación jurídica de los antecedentes relevantes.</p>
+<div class="action-panel"><a class="cta" id="contacto" href="mailto:carlos@surfinglegals.com?subject=Consulta%20jur%C3%ADdica%20de%20marca">Solicitar análisis jurídico</a></div>
+<p class="notice">La búsqueda no constituye una opinión legal ni garantiza la concesión de un registro.</p>
 </aside>
 </div>
+<section class="panel results" id="resultado" hidden aria-live="polite">
+<p class="tag">ANTECEDENTES CAPTURADOS DE MARCANET</p>
+<div class="summary"><h2 id="resumen">Resultados</h2><span id="conteo" class="count"></span></div>
+<p id="meta" class="muted"></p>
+<p id="advertencia" class="notice"></p>
+<div class="overflow"><table><thead><tr><th>#</th><th>Denominación</th><th>Expediente</th><th>Registro</th><th>Titular</th><th>Clase</th></tr></thead><tbody id="filas"></tbody></table></div>
+<p class="notice">Se presentan hasta 25 antecedentes como muestra. Un registro sin número de concesión no acredita por sí solo que esté rechazado o abandonado. <a href="https://acervomarcas.impi.gob.mx:8181/marcanet/vistas/common/datos/bsqFoneticaCompleta.pgi" target="_blank" rel="noopener noreferrer">Consultar MARCANET</a>.</p>
+<a id="pedir-analisis" class="cta" href="mailto:carlos@surfinglegals.com?subject=Revisi%C3%B3n%20de%20marca">Solicitar revisión de mis resultados</a>
+</section>
 </main>
 <footer>© Surfing Legals 2026 · <a href="../../aviso-de-privacidad/">Aviso de privacidad</a></footer>
-<script src="orientacion-inicial.js"></script>
 <script>
 (()=>{
-'use strict';
-const form=document.getElementById('marca-form');
-const result=document.getElementById('resultado');
-form.addEventListener('submit',event=>{
-  event.preventDefault();
-  if(!form.reportValidity())return;
-  const marca=form.elements.marca.value.trim();
-  const descripcion=form.elements.descripcion.value.trim();
-  const etapa=form.elements.etapa.value;
-  if(!marca||!descripcion)return;
-  const data=SLOrientacion.prepare({marca,descripcion,etapa});
-  document.getElementById('titulo-resultado').textContent='“'+marca+'”: pendiente de búsqueda oficial';
-  document.getElementById('resumen').textContent='Actividad declarada: '+descripcion+'.';
-  document.getElementById('observacion-inicial').textContent=data.elementosGenericos.length
-    ? 'Conviene revisar si estas palabras son de uso común o descriptivas para la actividad: '+data.elementosGenericos.join(', ')+'. Esto, por sí mismo, no determina una prohibición.'
-    : 'La información permite definir una ruta de análisis, pero todavía no permite concluir si el signo es distintivo o registrable.';
-  const steps=document.getElementById('ruta-pasos');steps.replaceChildren();
-  data.tareas.slice(0,4).forEach(item=>{const li=document.createElement('li');li.textContent=item;steps.append(li);});
-  const subject='Consulta de marca: '+marca;
-  const body='Hola, Surfing Legals.\n\nSolicito revisión jurídica de la marca: '+marca+
-    '\nProductos o servicios: '+descripcion+'\nEtapa: '+etapa+
-    '\n\nAgradeceré información sobre los siguientes pasos y honorarios.';
-  document.getElementById('pedir-analisis').href='mailto:carlos@surfinglegals.com?subject='+
-    encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  result.hidden=false;
-  result.scrollIntoView({behavior:'smooth',block:'nearest'});
+"use strict";
+const form=document.getElementById("form"),button=document.getElementById("enviar"),status=document.getElementById("status");
+const result=document.getElementById("resultado"),clase=document.getElementById("clase");
+for(let n=1;n<=45;n++){const op=document.createElement("option");op.value=String(n);op.textContent="Clase "+n;clase.append(op);}
+form.addEventListener("submit",async event=>{
+ event.preventDefault();if(!form.reportValidity())return;
+ const token=window.turnstile?.getResponse();
+ if(!token){status.textContent="Completa la verificación de seguridad para consultar.";return;}
+ button.disabled=true;result.hidden=true;status.textContent="Consultando MARCANET; espera unos segundos…";
+ const marca=form.elements.marca.value.trim(),numero=form.elements.clase.value.trim();
+ try{
+  const response=await fetch("/api/marcas/consulta",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({marca,clase:numero,turnstile_token:token})});
+  const data=await response.json();
+  if(!response.ok||data.ok!==true){status.textContent=data.mensaje||"No fue posible obtener una búsqueda validada. Intenta nuevamente.";return;}
+  document.getElementById("resumen").textContent="“"+data.marca+"” · Clase "+data.clase;
+  document.getElementById("conteo").textContent=data.total_capturado+" antecedentes";
+  document.getElementById("meta").textContent="Origen: "+data.fuente+" · Fecha de consulta: "+new Date(data.fecha_consulta).toLocaleString("es-MX");
+  document.getElementById("advertencia").textContent=data.advertencia;
+  const tbody=document.getElementById("filas");tbody.replaceChildren();
+  for(const r of data.antecedentes){
+   const tr=document.createElement("tr");
+   for(const key of ["orden","denominacion","expediente","registro","titular","clase"]){const td=document.createElement("td");td.textContent=String(r[key]??"");tr.append(td);}
+   tbody.append(tr);
+  }
+  const subject="Revisión jurídica de "+marca+" / clase "+numero;
+  const body="Hola, Surfing Legals. Solicito revisar los antecedentes de la marca "+marca+" en clase "+numero+". La búsqueda mostró "+data.total_capturado+" antecedentes. Agradeceré información sobre el análisis jurídico y honorarios.";
+  const mailto="mailto:carlos@surfinglegals.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  document.getElementById("pedir-analisis").href=mailto;document.getElementById("contacto").href=mailto;
+  result.hidden=false;status.textContent="Consulta completada.";result.scrollIntoView({behavior:"smooth",block:"start"});
+ }catch{status.textContent="No pudimos completar la consulta. No mostramos datos simulados.";}
+ finally{button.disabled=false;window.turnstile?.reset();}
 });
 })();
 </script>
