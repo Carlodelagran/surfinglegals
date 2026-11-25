@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "sl-impi-browser-lab",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-18",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "SL_IMPI_PUBLIC_SEARCH_ENABLED": "true"
+  }
+}

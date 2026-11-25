@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Laboratorio IMPI | Surfing Legals (pruebas)</title>
+<link rel="stylesheet" href="../../../style.css">
+<style>
+body{background:#1c1937;color:white;font-family:Arial,sans-serif}
+main.lab{max-width:1080px;margin:0 auto;padding:30px 20px}
+h1,h2{color:#fff}h1{font-size:clamp(27px,5vw,46px)}p,small{color:#cbc8dc}
+a{color:#00e9c7}label{display:block;margin:15px 0 5px}
+input,select{background:#24213e;color:#fff;border:1px solid #9a98ad;padding:12px;border-radius:7px;font:inherit;box-sizing:border-box;max-width:100%}
+input[type=file]{width:100%}
+button{background:#00e9c7;color:#1c1937;border:0;padding:13px 20px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:18px}
+.panel{background:#24213e;border:1px solid #ffffff2e;border-radius:14px;padding:23px;margin:20px 0}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fields select{width:100%}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #ffffff22;vertical-align:top}
+th{color:#00e9c7}
+.scroller{overflow-x:auto}
+.note{font-size:13px}
+#status{font-weight:600;color:#00e9c7}
+@media(max-width:650px){.fields{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="lab">
+<p><a href="../index.html">← Volver a consulta de marcas</a></p>
+<p style="color:#00e9c7;letter-spacing:2px">LABORATORIO INTERNO · PROTOTIPO</p>
+<h1>Analizador de resultados IMPI</h1>
+<p>Importa el CSV del Acervo de Marcas o el JSON normalizado generado a partir del paquete del IMPI. Este laboratorio no consulta automáticamente el IMPI, no transmite el archivo a un servidor y no determina registrabilidad.</p>
+<div class="panel">
+<label for="csv">Archivo CSV del IMPI o JSON de consulta normalizada</label>
+<input id="csv" type="file" accept=".csv,.json,text/csv,application/json,text/plain">
+<label for="query">Denominación bajo análisis</label>
+<input id="query" value="RETRO GAME FEST" maxlength="120">
+<p id="status" role="status">Esperando archivo CSV o JSON.</p>
+</div>
+<div class="panel" id="mapping-panel" hidden>
+<h2>Correspondencia de columnas</h2>
+<p>Confirma qué columna contiene cada campo. Los datos originales se conservan en memoria y la lista se ordena solo para revisión.</p>
+<div class="fields" id="fields"></div>
+<button id="analyze" type="button">Ordenar antecedentes para revisión</button>
+</div>
+<section class="panel" id="result-panel" hidden>
+<h2>Antecedentes ordenados</h2>
+<p id="summary"></p>
+<p class="note">La puntuación es una heurística de semejanza textual para priorización, no una calificación fonética, riesgo jurídico ni pronóstico del IMPI. Se requiere cotejar expedientes, servicios y estatus en fuentes oficiales.</p>
+<button type="button" id="export-report">Descargar informe preliminar (HTML imprimible)</button><p class="note">El informe se genera en el navegador, sin enviar el CSV a servidores. Puedes abrirlo e imprimirlo o guardarlo como PDF.</p><div class="scroller"><table><thead><tr><th>Orden original</th><th>Denominación</th><th>Expediente</th><th>Titular</th><th>Clase</th><th>Registro</th><th>Actuación anotada</th><th>Prioridad</th><th>Motivo de revisión</th><th>Similitud textual</th></tr></thead><tbody id="results"></tbody></table></div>
+</section>
+</main>
+<script src="../analizador-impi.js"></script>
+<script src="../analisis-juridico.js"></script>
+<script src="../consulta-json.js"></script>
+<script src="../informe.js"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const fields=['orden','denominacion','expediente','titular','clase','registro','estatus','actuacion'];
+let rows=[];let currentReport=null;let jsonImport=null;
+const file=$('csv'), status=$('status'), panel=$('mapping-panel'), output=$('result-panel');
+file.addEventListener('change',async()=>{
+ panel.hidden=true; output.hidden=true;currentReport=null;jsonImport=null;
+ const f=file.files&&file.files[0]; if(!f){status.textContent='Selecciona un archivo.';return;}
+ if(f.size>12*1024*1024){status.textContent='El archivo supera el límite de 12 MB.';return;}
+ try{
+  const text=await f.text();
+  if(f.name.toLowerCase().endsWith('.json')){
+    jsonImport=SLConsultaJSON.parse(text);
+    $('query').value=jsonImport.marca;
+    status.textContent='JSON validado: '+jsonImport.total+' expedientes; clase '+jsonImport.clase+'; '+jsonImport.fichas_revisadas+' fichas con actuaciones anotadas.';
+    panel.hidden=false;$('fields').replaceChildren();
+    $('mapping-panel').querySelector('h2').textContent='Datos normalizados';
+    $('mapping-panel').querySelector('p').textContent='Las columnas ya están normalizadas; puedes generar el informe directamente.';
+    return;
+  }
+  $('mapping-panel').querySelector('h2').textContent='Correspondencia de columnas';
+  $('mapping-panel').querySelector('p').textContent='Confirma qué columna contiene cada campo. Los datos originales se conservan en memoria y la lista se ordena solo para revisión.';
+  rows=SLImpi.parseCSV(text);
+  if(rows.length<2)throw Error('No se identificaron filas de datos.');
+  const columns=rows[0], wrap=$('fields');wrap.replaceChildren();
+  for(const key of fields){
+   const div=document.createElement('div'),label=document.createElement('label'),select=document.createElement('select');
+   label.textContent=key[0].toUpperCase()+key.slice(1);label.htmlFor='map-'+key;select.id='map-'+key;
+   const optional=['orden','registro','estatus','actuacion'].includes(key);
+   if(optional){const o=document.createElement('option');o.value='-1';o.textContent='No disponible';select.append(o);}
+   columns.forEach((value,index)=>{const o=document.createElement('option');o.value=index;o.textContent=value||'Columna '+(index+1);select.append(o);});
+   const synonyms={orden:/^#|orden/i,actuacion:/actuaci[oó]n|fecha publicada|observacion/i,denominacion:/denominaci[oó]n|marca|signo|nombre/i,expediente:/expediente/i,titular:/titular|solicitante/i,clase:/clase/i,registro:/registro/i,estatus:/estatus|estado|situaci[oó]n/i};
+   const found=columns.findIndex(x=>synonyms[key].test(x));
+   if(found>=0)select.value=String(found);else if(optional)select.value='-1';
+   div.append(label,select);wrap.append(div);
+  }
+  status.textContent='CSV leído: '+(rows.length-1)+' filas. Confirma las columnas.';panel.hidden=false;
+ }catch(err){status.textContent='Error al leer CSV: '+err.message;}
+});
+$('export-report').addEventListener('click',()=>{ if(!currentReport){status.textContent='Primero analiza un CSV.';return;} SLInforme.download(currentReport,{nombre_pdf:'PDF oficial de búsqueda fonética del IMPI, conservado por el usuario'}); });
+$('analyze').addEventListener('click',()=>{
+ try{
+ const records=jsonImport?jsonImport.registros:SLImpi.rowsToRecords(rows,Object.fromEntries(fields.map(key=>[key,Number($('map-'+key).value)])));
+ const clase=jsonImport?jsonImport.clase:records[0]?.clase||null;
+ const informe=SLJuridico.report($('query').value,records,{clase,fecha_consulta:jsonImport?.fecha_consulta||null});
+ if(jsonImport){
+   informe.fuente=jsonImport.fuente;
+   informe.archivos=jsonImport.archivos;
+   informe.limitaciones_origen=jsonImport.limitaciones;
+ }
+ const ranked=informe.antecedentes;currentReport=informe;
+ const tbody=$('results');tbody.replaceChildren();
+ for(const record of ranked.slice(0,100)){
+  const tr=document.createElement('tr');
+  const values=[record.orden_original,record.denominacion,record.expediente,record.titular,record.clase,record.registro,record.actuacion||'Sin anotación',record.prioridad,record.razones.join(' '),record.comparacion.level.replaceAll('_',' ')+' ('+record.comparacion.score+')'];
+  for(const value of values){const td=document.createElement('td');td.textContent=String(value);tr.append(td);}
+  tbody.append(tr);
+ }
+ $('summary').textContent=records.length+' antecedentes importados. Se muestran los primeros '+Math.min(100,ranked.length)+' ordenados por prioridad de revisión y semejanza textual. Fichas con actuación revisada: '+informe.fichas_con_actuacion_revisada+'. El resto requiere verificación individual. La fonética y traducciones requieren cotejo profesional.';
+ output.hidden=false;
+ }catch(err){status.textContent='No fue posible analizar: '+err.message;}
+});
+})();
+</script>
+</body></html>

@@ -1,0 +1,31 @@
+name: Prueba única navegador MARCANET
+on:
+  push:
+    branches: [feature/consulta-marca-v1]
+    paths:
+      - 'tools/marcanet/smoke-browser.mjs'
+      - '.github/workflows/impi-marcanet-smoke.yml'
+permissions:
+  contents: read
+jobs:
+  marcanet-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: Activar Playwright instalado en imagen
+        run: npm install --no-save --no-package-lock playwright@1.57.0
+      - name: Una búsqueda fonética RETRO GAME FEST clase 41
+        env:
+          CI: 'true'
+        run: node tools/marcanet/smoke-browser.mjs "RETRO GAME FEST" 41
+      - name: Conservación de diagnóstico
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-marcanet-prueba
+          path: tmp/marcanet-pruebas/
+          if-no-files-found: warn
+          retention-days: 3
